@@ -1,8 +1,8 @@
-package main;
+package Customer;
 
 import java.util.Scanner;
 
-public class FixUserDate {
+public class FixUserData {
 	Scanner scan = new Scanner(System.in);
 	public void run() {
 		// 사용자의 아이디 로 정보를 불러옴

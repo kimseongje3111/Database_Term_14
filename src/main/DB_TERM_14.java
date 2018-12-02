@@ -6,5 +6,4 @@ public class DB_TERM_14 {
 		LogInSignIn loginSignIn = new LogInSignIn();
 		loginSignIn.run();
 	}
-
 }

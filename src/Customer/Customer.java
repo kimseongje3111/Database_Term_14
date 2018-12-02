@@ -1,4 +1,4 @@
-package main;
+package Customer;
 
 import java.util.Scanner;
 
@@ -34,15 +34,16 @@ public class Customer {
 				break;
 			case 5: // 회원정보수정
 				System.out.println("회원님의 정보를 수정합니다.");
-				new FixUserDate().run();
+				new FixUserData().run();
 				break;
 			case 6: // 회원탈퇴
-				new UserInforDelete().run();
+				new DeleteUserInfo().run();
 				break;
 			case 7: // 로그아웃
 				System.out.println("종료합니다.");
 				run = false;
 				break;
+				default:
 			}
 		}
 	}

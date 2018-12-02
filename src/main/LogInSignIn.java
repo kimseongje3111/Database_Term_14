@@ -12,7 +12,7 @@ public class LogInSignIn {
 		} else
 			first = true;
 				
-		int loginORsignin = inputInt("DB TERM PROJECT에 오신걸 환영합니다. (1.로그인  2.회원가입  9.종료) ");
+		int loginORsignin = inputInt("DB 14조 TERM PROJECT에 오신 것을 환영합니다. (1.로그인  2.회원가입  9.종료) ");
 		if(loginORsignin==1) {
 			System.out.println("로그인을 해주세요.");
 			new LogIn().run();

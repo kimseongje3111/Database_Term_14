@@ -2,6 +2,9 @@ package main;
 
 import java.util.Scanner;
 
+import Customer.Customer;
+import Manager.Manager;
+
 public class LogIn {
 	Scanner scan = new Scanner(System.in);
 	
