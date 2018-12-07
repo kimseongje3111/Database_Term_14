@@ -34,7 +34,7 @@ public class TheaterManage {
 			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
 			theater.setTheaterId(theaterIdToFix);
 
-			boolean r1 = true; // DAO 영화관 : 아이디 중복 검사
+			boolean r1 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
 
 			if (r1) {
 				this.fixTheaterInfo();
@@ -50,7 +50,7 @@ public class TheaterManage {
 			deleteThisTheater = this.inputString("삭제할 영화관 아이디 : ");
 			theater.setTheaterId(deleteThisTheater);
 
-			boolean r2 = true; // DAO 영화관 : 아이디 중복 검사
+			boolean r2 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
 
 			if (r2) {
 				this.deleteTheater();
@@ -75,7 +75,7 @@ public class TheaterManage {
 		theaterId = this.inputString("영화관 아이디 : ");
 		theater.setTheaterId(theaterId);
 
-		boolean b1 = false; // DAO 영화관 : 아이디 중복 검사
+		boolean b1 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
 
 		if (!b1) {
 			theaterAddr = this.inputString("영화관 주소 : ");
@@ -85,7 +85,7 @@ public class TheaterManage {
 			theater.setTheaterTel(theaterTel);
 			theater.setScreenNum(screenNum);
 
-			boolean b2 = true; // DAO 영화관 : 삽입
+			boolean b2 = dao.insertTheater(theater); // DAO 영화관 : 삽입
 
 			if (b2) {
 				System.out.println("영화관이 등록되었습니다.");
@@ -107,7 +107,7 @@ public class TheaterManage {
 			String newTheaterAddress = this.inputString("새로운 영화관 주소 : ");
 			theater.setTheaterAddr(newTheaterAddress);
 
-			boolean b1 = true; // DAO 영화관 : 정보 업데이트
+			boolean b1 = dao.updateTheater(theater); // DAO 영화관 : 정보 업데이트
 
 			if (b1) {
 				System.out.println("주소가 변경되었습니다.");
@@ -122,7 +122,7 @@ public class TheaterManage {
 			String newTheaterTel = this.inputString("새로운 영화관 전화번호 : ");
 			theater.setTheaterTel(newTheaterTel);
 
-			boolean b2 = true; // DAO 영화관 : 정보 업데이트
+			boolean b2 = dao.updateTheater(theater); // DAO 영화관 : 정보 업데이트
 
 			if (b2) {
 				System.out.println("전화번호가 변경되었습니다.");
@@ -137,7 +137,7 @@ public class TheaterManage {
 			int newScreenNum = this.inputInt("새로 설정할 (최대)상영관 수 : ");
 			theater.setScreenNum(newScreenNum);
 
-			boolean b3 = true; // DAO 영화관 : 정보 업데이트
+			boolean b3 = dao.updateTheater(theater); // DAO 영화관 : 정보 업데이트
 
 			if (b3) {
 				System.out.println("상영관 수가 변경되었습니다.");
@@ -161,7 +161,7 @@ public class TheaterManage {
 	private void deleteTheater() {
 		if (this.inputString("삭제하시겠습니까? (Y/N) ").equals("Y")) {
 
-			boolean b = true; // DAO 영화관 : 삭제
+			boolean b = dao.deleteTheater(theater); // DAO 영화관 : 삭제
 
 			if (b) {
 				System.out.println("영화관이 삭제되었습니다.");

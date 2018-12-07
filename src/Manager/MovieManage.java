@@ -36,7 +36,7 @@ public class MovieManage {
 			fixThisMovie = this.inputString("수정할 영화 : ");
 			movie.setMovieName(fixThisMovie);
 
-			boolean r1 = true; // DAO 영화 : 제목 중복 검사
+			boolean r1 = dao.checkMovieName(movie); // DAO 영화 : 제목 중복 검사
 
 			if (r1) {
 				this.fixMovieInfo();
@@ -52,7 +52,7 @@ public class MovieManage {
 			deleteThisMovie = this.inputString("삭제할 영화 : ");
 			movie.setMovieName(deleteThisMovie);
 
-			boolean r2 = true; // DAO 영화 : 제목 중복 검사
+			boolean r2 = dao.checkMovieName(movie); // DAO 영화 : 제목 중복 검사
 
 			if (r2) {
 				this.deleteMovie();
@@ -77,7 +77,7 @@ public class MovieManage {
 		movieId = this.inputString("등록할 영화 아이디 : ");
 		movie.setMovieId(movieId);
 
-		boolean b1 = false; // DAO 영화 : 아이디 중복 검사
+		boolean b1 = dao.checkMovieId(movie); // DAO 영화 : 아이디 중복 검사
 
 		if (!b1) {
 			movieName = this.inputString("등록할 영화 제목 : ");
@@ -91,7 +91,7 @@ public class MovieManage {
 			movie.setRating(rating);
 			movie.setKeyInfo(keyInfo);
 
-			boolean b2 = true; // DAO 영화 : 삽입
+			boolean b2 = dao.insertMovie(movie); // DAO 영화 : 삽입
 
 			if (b2) {
 				System.out.println("영화가 등록되었습니다.");
@@ -114,11 +114,11 @@ public class MovieManage {
 			movie.setPremovieName(fixThisMovie);
 			movie.setMovieName(newmovieName);
 			
-			boolean b1 = false; // DAO 영화 : 제목 중복 검사
+			boolean b1 = dao.checkMovieName(movie); // DAO 영화 : 제목 중복 검사
 			
 			if (!b1) {
 				
-				boolean b2 = true; // DAO 영화 : 정보 업데이트 (이전의 영화 제목을 보고)
+				boolean b2 = dao.updateMovieInfo(movie, true); // DAO 영화 : 정보 업데이트 (이전의 영화 제목을 보고)
 				
 				if (b2) {
 					System.out.println("영화 제목이 변경되었습니다.");
@@ -136,7 +136,7 @@ public class MovieManage {
 			String newdirector = this.inputString("새로운 영화 감독 : ");
 			movie.setDirector(newdirector);
 			
-			boolean b3 = true; // DAO 영화 : 정보 업데이트
+			boolean b3 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
 			
 			if (b3) {
 				System.out.println("영화 감독이 변경되었습니다.");
@@ -151,7 +151,7 @@ public class MovieManage {
 			String newcast = this.inputString("새로운 영화 출연진 : ");
 			movie.setCast(newcast);
 			
-			boolean b4 = true; // DAO 영화 : 정보 업데이트
+			boolean b4 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
 			
 			if (b4) {
 				System.out.println("영화 출연진이 변경되었습니다.");
@@ -166,7 +166,7 @@ public class MovieManage {
 			String newrating = this.inputString("새로운 영화 등급 : ");
 			movie.setRating(newrating);
 			
-			boolean b5 = true; // DAO 영화 : 정보 업데이트
+			boolean b5 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
 
 			if (b5) {
 				System.out.println("영화 등급이 변경되었습니다.");
@@ -180,7 +180,7 @@ public class MovieManage {
 		case 5: // 주요 정보
 			String newkeyInfo = this.inputString("새로운 영화 주요 정보 : ");
 			
-			boolean b6 = true; // DAO 영화 : 정보 업데이트
+			boolean b6 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
 			
 			if (b6) {
 				System.out.println("영화 주요 정보가 변경되었습니다.");
@@ -203,7 +203,7 @@ public class MovieManage {
 	private void deleteMovie() {
 		if (this.inputString("삭제하시겠습니까? (Y/N) ").equals("Y")) {
 
-			boolean b = true; // DAO 영화 : 삭제
+			boolean b = dao.deleteMovie(movie); // DAO 영화 : 삭제
 
 			if (b) {
 				System.out.println("영화가 삭제되었습니다.");
