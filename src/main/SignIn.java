@@ -33,7 +33,7 @@ public class SignIn {
 		else
 			System.out.println("회원가입이 실패하였습니다.");
 
-		// 저장된 거 확인 겸 select 해봄
+		// 저장된 거 확인 겸 select
 		List<User> list = dao.getUserList();
 		
 		for(User u : list) {

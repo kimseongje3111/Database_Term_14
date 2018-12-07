@@ -65,7 +65,7 @@ public class MovieManage {
 			break;
 
 		case 9:
-			System.out.println("영화관 관리를 마칩니다.");
+			System.out.println("영화 관리를 마칩니다.");
 			break;
 
 		default:
