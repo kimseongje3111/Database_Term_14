@@ -211,7 +211,7 @@ public class MovieManage {
 				System.out.println("영화 삭제를 실패하였습니다.");
 			}
 		} else {
-			System.out.println("영화관 삭제 업무를 취소합니다.");
+			System.out.println("영화 삭제 업무를 취소합니다.");
 		}
 	}
 
