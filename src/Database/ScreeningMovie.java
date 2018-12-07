@@ -1,6 +1,8 @@
 package Database;
 
-public class ScreeningMovie {
+import java.io.Serializable;
+
+public class ScreeningMovie implements Serializable{
 
 	private int screenMovieId;
 	private String screenDate;

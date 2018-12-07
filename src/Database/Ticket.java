@@ -1,6 +1,8 @@
 package Database;
 
-public class Ticket {
+import java.io.Serializable;
+
+public class Ticket implements Serializable{
 
 	private String ticketId;
 	private String movieName;
