@@ -116,16 +116,12 @@ public class DAO {
 
 				pstmt.setString(1, user.getUserId());
 				pstmt.setString(2, user.getPwd());
-				pstmt.setNull(3, java.sql.Types.NULL);
-				pstmt.setNull(4, java.sql.Types.NULL);
-				pstmt.setNull(5, java.sql.Types.NULL);
-				pstmt.setNull(6, java.sql.Types.NULL);
-				// pstmt.setString(3, user.getName());
-				// pstmt.setString(4, user.getBirth());
-				// pstmt.setString(5, user.getAddr());
-				// pstmt.setString(6, user.getPhoneNum());
-				pstmt.setNull(7, java.sql.Types.NULL);
-				pstmt.setNull(8, java.sql.Types.NULL);
+				pstmt.setString(3, user.getName());
+				pstmt.setString(4, user.getBirth());
+				pstmt.setString(5, user.getAddr());
+				pstmt.setString(6, user.getPhoneNum());
+				pstmt.setInt(7, 0);
+				pstmt.setInt(8, 0);
 
 				int r = pstmt.executeUpdate();
 
@@ -464,9 +460,10 @@ public class DAO {
 	}
 
 	// 영화 정보 업데이트
-	public boolean updateMovieInfo(Movie movie, boolean titleEdit) {
+	public boolean updateMovieInfo(Movie movie) {
 		boolean result = false;
 
+		System.out.println(movie);
 		if (this.connect()) {
 			try {
 				String sql = "UPDATE movie SET movieName = ?, director = ?, cast = ? rating = ?, keyInfo = ?  WHERE movieId = ?";
@@ -477,11 +474,7 @@ public class DAO {
 				pstmt.setString(3, movie.getCast());
 				pstmt.setString(4, movie.getRating());
 				pstmt.setString(5, movie.getKeyInfo());
-
-				if (titleEdit) {
-					pstmt.setString(6, movie.getPremovieName());
-				} else
-					pstmt.setString(6, movie.getMovieId());
+				pstmt.setString(6, movie.getMovieId());
 
 				int r = pstmt.executeUpdate();
 
@@ -699,5 +692,133 @@ public class DAO {
 		return list;
 
 	}
+
+	// 18. 예매자 가용 포인트 가져오기
+	public int getUsedPoint(User user) {
+		int point = 0;
+		String uid = user.getUserId();
+		if(this.connect()) {
+			String sql = "SELECT usedPoint FROM user WHERE userId = '" + uid + "';";
+
+			try {
+				stmt = conn.createStatement();
+
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+					rs.next();
+					point = rs.getInt(1);
+				}
+				this.close();
+			} catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+
+		}
+		return point;
+	}
+
+
+	// 19. 티켓 현장 결제 - 포인트 사용 o   +   20. 티켓 현장 결제 - 포인트 사용 x
+	public boolean ticketing(User user, Boolean T, int point) {
+
+		String uid = user.getUserId();
+		
+		boolean result = false;
+		if (this.connect()) {
+			try {
+				String sql = "UPDATE user SET point = point - "+ String.valueOf(point) +", ticketPurchaseNum = ticketPurchaseNum + 1 WHERE userId = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				pstmt.setString(1, uid);
+
+				int r = pstmt.executeUpdate();
+
+				if (r > 0) {
+					result = true;
+				}
+				// 데이터베이스 생성 객체 해제
+				pstmt.close();
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+	}
+
+
+	// 21. 티켓 현장 결제 - 결제 완료
+	public boolean OnSitePayment(Ticket ticket) {
+
+		String uid = ticket.getUserId();
+		
+		boolean result = false;
+		
+		if (this.connect()) {
+			try {
+				String sql = "UPDATE ticket SET paymentBool = 1 WHERE userId = '"+ uid +"';";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				int r = pstmt.executeUpdate();
+
+				if (r > 0) {
+					result = true;
+				}
+				// 데이터베이스 생성 객체 해제
+				pstmt.close();
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+	}
+
+	
+	
+	// 22. VIP 관리
+	public List<String> getVipList(String period){
+		List<String> list = null;
+		String temp[] = period.split("~");
+		int start = Integer.parseInt(temp[0]);			// ex) 20181208
+		int end = Integer.parseInt(temp[1]);
+		
+		//String sql = "SELECT userId from ticket WHERE "
+		
+		
+		if(this.connect()) {
+			String sql = "SELECT userId FROM ticket WHERE ";
+
+			// SELECT userId FROM (SELECT * FROM ticket WHERE screenDate BETWEEN start AND end) as a GROUP BY userId ORDER BY 2 DESC LIMIT 10;
+			
+			try {
+				stmt = conn.createStatement();
+
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+					rs.next();
+					//point = rs.getInt(1);
+				}
+				this.close();
+			} catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+
+		}
+		
+		
+		
+		
+		return list;
+	}
+	
+	
+	
 
 }
