@@ -26,6 +26,7 @@ public class PublishTicket {
 			} else {
 				System.out.println("[" + ticket.getTicketId() + "] 결제가 완료되지 않았습니다. 현장 결제를 진행합니다.");
 				this.fieldPay(ticket);
+				
 			}
 		}
 
