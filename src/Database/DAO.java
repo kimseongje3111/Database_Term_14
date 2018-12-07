@@ -647,6 +647,49 @@ public class DAO {
 	}
 
 
+	// 17. 예매자 티켓 리스트 가져오기
+	public List<Ticket> getTicketList(User user){
+		List<Ticket> list = null;
+		String id = "'"+user.getUserId()+"'";
+		
+		String sql = "SELECT * FROM ticket WHERE userId = " + id;
+		if(connect()) {
+			try {
+				stmt = conn.createStatement();
+				
+				if(stmt != null) {
+					
+					rs = stmt.executeQuery(sql);
+
+					list = new ArrayList<Ticket>();
+
+					while(rs.next()) {
+						Ticket t = new Ticket();
+						t.setTicketId(rs.getString("ticketId"));
+						t.setMovieName(rs.getString("movieName"));
+						t.setTheaterName(rs.getString("theaterName"));
+						t.setScreenNum(rs.getString("screenNum"));
+						t.setScreenDate(rs.getString("screenDate"));
+						t.setSeatNum(rs.getString("seatNum"));
+						t.setUserId(rs.getString("userId"));
+						t.setPaymentBool(rs.getBoolean("paymentBool"));
+						t.setUsedPoint(rs.getString("usedPoint"));
+						list.add(t);
+					}
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}else {
+			// 연결에 실패했을 때 작업
+			System.out.println("데이터베이스 연결에 실패했습니다.");
+			System.exit(0);
+		}
+		return list;
+
+	}
+	
+	
 
 
 
