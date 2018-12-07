@@ -1,6 +1,8 @@
 package Database;
 
-public class MovieChart {
+import java.io.Serializable;
+
+public class MovieChart implements Serializable{
 
 	private String movieName;
 	private int ticketingRate;

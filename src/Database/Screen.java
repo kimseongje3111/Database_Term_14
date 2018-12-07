@@ -1,6 +1,8 @@
 package Database;
 
-public class Screen {
+import java.io.Serializable;
+
+public class Screen implements Serializable{
 
 	private String screenId;
 	private String theaterId;
