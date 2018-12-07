@@ -13,7 +13,7 @@ public class DAO {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://localhost:3306/db_term_1?autoReconnect=true&useSSL=false";
 	static final String USERNAME = "root";
-	static final String PASSWORD = "dpahd396";
+	static final String PASSWORD = "52ajrdj";
 
 	static {
 		try {
@@ -80,16 +80,6 @@ public class DAO {
 					
 					while(rs.next()) {
 						User user = new User();
-						
-//						user.setUserId(rs.getString(rs.getString("userId")));
-//						user.setPwd(rs.getString(rs.getString("pwd")));
-//						user.setName(rs.getString(rs.getString("name")));
-//						user.setBirth(rs.getString(rs.getString("birth")));
-//						user.setAddr(rs.getString(rs.getString("addr")));
-//						user.setPhoneNum(rs.getString(rs.getString("phoneNum")));
-//						user.setPoint(rs.getInt(rs.getString("point")));
-//						user.setTicketPurchaseNum(rs.getInt(rs.getString("ticketPurchaseNum")));
-						
 						user.setUserId((rs.getString("userId")));
 						user.setPwd((rs.getString("pwd")));
 						user.setName((rs.getString("name")));

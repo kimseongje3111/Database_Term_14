@@ -2,7 +2,11 @@ package Manager;
 
 import java.util.Scanner;
 
+import Database.DAO;
+import Database.Movie;
+
 public class MovieManage {
+	
 	Scanner scan = new Scanner(System.in);
 	private String movieId;
 	private String movieName;
@@ -11,20 +15,25 @@ public class MovieManage {
 	private String rating;
 	private String keyInfo;
 	
+	DAO dao = DAO.sharedInstance();
+	Movie movie = new Movie();
+	
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
-		int chooseWork = this.inputInt("1.영화 등록  2.영화 정보 수정  3.영화 삭제  9.다른 업무 보기");
+		int chooseWork = this.inputInt("1.영화 등록  2.영화 정보 수정  3.영화 삭제  9.다른 업무 보기 ");
 		
 		switch (chooseWork) {
 		case 1: // 영화 등록
 			System.out.println("영화를 등록합니다.");
 			this.addMovie();
+			System.out.println();
 			this.run();
 			break;
 			
 		case 2: // 영화 정보 수정
-			// 영화 리스트를 보여줌 -> 영화 id를 입력후 존재여부 확인
 			String fixThisMovie = this.inputString("수정할 영화 : ");
+			movie.setMovieId(fixThisMovie);
+			
 			if(fixThisMovie.equals("얘가 존재하면"))
 				this.fixMovieInfo();
 			else
@@ -40,14 +49,24 @@ public class MovieManage {
 		case 9:
 			System.out.println("영화관 관리를 마칩니다.");
 			break;
-			default :
-				this.run();
+			
+		default :
+			this.run();
 		}
 	}
 
 	private void addMovie() {
 		movieId = this.inputString("등록할 영화 아이디 : ");
-		// < id 겹치는지 확인 >
+		movie.setMovieId(movieId);
+
+		boolean b1 = false; // DAO 영화 아이디 중복 검사
+		
+		if(!b1) {
+			
+		} else {
+			System.out.println("이미 존재하는 영화입니다.");
+		}
+		
 		movieName = this.inputString("등록할 영화 제목 : ");
 		director = this.inputString("등록할 영화의 감독명 : ");
 		cast = this.inputString("등록할 영화의 출연진 : ");
@@ -60,7 +79,8 @@ public class MovieManage {
 	
 	private void fixMovieInfo() {
 		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.상영관 번호  2.상영관의 최대 좌석 수  9.수정 종료");
+		int chooseWork = this.inputInt("1.상영관 번호  2.상영관의 최대 좌석 수  9.수정 종료 ");
+		
 		switch(chooseWork) {
 		case 1 : // 상영관 번호
 			String newScreenId = this.inputString("새로운 영화관 번호 : ");
@@ -77,8 +97,9 @@ public class MovieManage {
 		case 9: // 수정 종료
 			System.out.println("상영관 정보 수정을 마칩니다.");
 			break;
-			default :
-				this.fixMovieInfo();
+			
+		default :
+			this.fixMovieInfo();
 		}
 	}
 	

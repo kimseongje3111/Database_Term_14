@@ -2,92 +2,150 @@ package Manager;
 
 import java.util.Scanner;
 
+import Database.DAO;
+import Database.Screen;
+import Database.Theater;
+
 public class ScreenManage {
+
 	Scanner scan = new Scanner(System.in);
-	private String screenId; // 영화관  + 상영관 번호
+	private String screenId;
 	private String theaterId;
-	private String screeId;
+	private String screenNum;
 	private int availSeat;
-	private String theaterIdToFix; // 수정할 영화관의 아이디
+	private String theaterIdToFix;
 	private String fixThisScreen;
-	
+
+	DAO dao = DAO.sharedInstance();
+	Theater theater = new Theater();
+	Screen screen = new Screen();
+
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
-		int chooseWork = this.inputInt("1.상영관 등록  2.상영관 정보 수정   9.다른 업무 보기");
-		
+		int chooseWork = this.inputInt("1.상영관 등록  2.상영관 정보 수정  9.다른 업무 보기 ");
+
 		switch (chooseWork) {
 		case 1: // 상영관 등록
 			System.out.println("상영관을 등록합니다.");
 			this.addScreen();
+			System.out.println();
 			this.run();
 			break;
-			
+
 		case 2: // 상영관 정보 수정
-			// 영화관 리스트를 보여줌 -> 영화관 id를 입력후 존재여부 확인
-			//   -> 상영관 리스트를 보여줌 -> 상영관 번호를 입력후 존재여부 확인 존재시 하나씩 골라 수정 가능케 /
-			
-			// <영화관 리스트 출력 >
 			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
-			if(!theaterIdToFix.equals("입력한 아이디가 존재 안하면")) 
-				System.out.println("일치하는 영화관이 없습니다.");
-			else { 
-				// < 상영관 리스트 출력
+			theater.setTheaterId(theaterIdToFix);
+
+			boolean r1 = true; // DAO 영화관 아이디 중복 검사
+
+			if (r1) {
 				fixThisScreen = this.inputString("수정할 상영관 번호 : ");
-				if(!fixThisScreen.equals("상영관이 존재 안하면")) 
-					System.out.println("일치하는 상영관이 없습니다.");
-				else
+				screen.setScreenId(theaterIdToFix + fixThisScreen);
+				screen.setPreScreenId(theaterIdToFix + fixThisScreen);
+
+				boolean r2 = true; // DAO 상영관 아이디 중복 검사
+
+				if (r2) {
 					this.fixScreenInfo();
+					System.out.println();
+				} else {
+					System.out.println("일치하는 상영관이 없습니다.");
+				}
+			} else {
+				System.out.println("일치하는 영화관이 없습니다.");
 			}
+
 			this.run();
 			break;
-			
+
 		case 9:
 			System.out.println("영화관 관리를 마칩니다.");
 			break;
-			default :
-				this.run();
+
+		default:
+			this.run();
 		}
 	}
 
 	private void addScreen() {
-		// < 영화관 ID를 전부 보여준다. >
 		theaterId = this.inputString("상영관을 등록할 영화관 아이디 : ");
-		// if < 영화관 ID가 겹치면> {
-		screeId = this.inputString("등록할 상영관 번호 : ");
-		availSeat = this.inputInt("상영관의 최대 좌석 수 : ");
-//		}
-//		else {
-//			System.out.println("일치하는 영화관이 없습니다.");
-//		}
-		
-		// 상영관 추가
-		System.out.println("상영관이 등록되었습니다.");
+		theater.setTheaterId(theaterId);
+
+		boolean b1 = true; // DAO 영화관 아이디 중복 검사
+
+		if (b1) {
+			screenNum = this.inputString("등록할 상영관 번호 : ");
+			availSeat = this.inputInt("상영관의 최대 좌석 수 : ");
+			screen.setScreenId(theaterId + screenNum);
+			screen.setTheaterId(theaterId);
+			screen.setScreenNum(screenNum);
+			screen.setAvailSeat(availSeat);
+
+			boolean b2 = false; // DAO 상영관 아이디 중복 검사
+
+			if (!b2) {
+
+				boolean b3 = true; // DAO 상영관 등록 (해당 영화관의 최대 상영관 수 확인)
+
+				if (b3) {
+					System.out.println("상영관이 등록되었습니다.");
+				} else {
+					System.out.println("상영관 등록을 실패하였습니다.");
+				}
+			} else {
+				System.out.println("이미 존재하는 상영관입니다.");
+			}
+		} else {
+			System.out.println("일치하는 영화관이 없습니다.");
+		}
+
 	}
-	
+
 	private void fixScreenInfo() {
 		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.상영관 번호  2.상영관의 최대 좌석 수  9.수정 종료");
-		switch(chooseWork) {
-		case 1 : // 상영관 번호
-			String newScreenId = this.inputString("새로운 영화관 번호 : ");
-			// < 상영관 번호 수정 >
+		int chooseWork = this.inputInt("1.상영관 번호  2.상영관의 최대 좌석 수  9.수정 종료 ");
+
+		switch (chooseWork) {
+		case 1: // 상영관 번호
+			String newScreenNum = this.inputString("새로운 영화관 번호 : ");
+			screen.setScreenNum(newScreenNum);
+			screen.setScreenId(theaterIdToFix + newScreenNum);
+
+			boolean b1 = true; // DAO 상영관 업데이트 (변경전의 상영관 아이디를 확인)
+
+			if (b1) {
+				System.out.println("상영관 번호가 변경되었습니다.");
+			} else {
+				System.out.println("상영과 번호 변경을 실패하였습니다.");
+			}
+
 			this.fixScreenInfo();
 			break;
-		
-		case 2 : // 상영관 최대 좌석 수
+
+		case 2: // 상영관 최대 좌석 수
 			int newAvailSeat = this.inputInt("새로운 상영관 좌석 수 : ");
-			// < 좌석수 수정 > - 예외 처리 : 예약 된 수가 새로 입려간 수보다 클 떄??
+			screen.setAvailSeat(newAvailSeat);
+
+			boolean b2 = true; // DAO 상영관 업데이트 (변경전의 상영관 아이디를 확인) // 추가 예외처리 - 이미 예약된 좌석수 보다 변경된 총 좌석수가 작을때?
+
+			if (b2) {
+				System.out.println("상영관 좌석 수가 변경되었습니다.");
+			} else {
+				System.out.println("상영관 좌석 수 변경을 실패하였습니다.");
+			}
+			
 			this.fixScreenInfo();
 			break;
-			
+
 		case 9: // 수정 종료
 			System.out.println("상영관 정보 수정을 마칩니다.");
 			break;
-			default :
-				this.fixScreenInfo();
+
+		default:
+			this.fixScreenInfo();
 		}
 	}
-	
+
 	private int inputInt(String string) {
 		System.out.print(string);
 		return Integer.parseInt(scan.nextLine());

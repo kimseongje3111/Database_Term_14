@@ -17,8 +17,6 @@ public class SignIn {
 		String phoneNum = this.inputString("전화번호 : ");
 		
 		// 사용자 테이블에 회원가입 정보가 저장된다 // 회원가입된 정보도 한번 보여줘?
-		
-		
 		DAO dao = DAO.sharedInstance();
 		User user = new User();
 		user.setUserId(userId);
@@ -28,12 +26,12 @@ public class SignIn {
 		user.setAddr(addr);
 		user.setPhoneNum(phoneNum);
 		
-//		boolean r = dao.InsertUser(user);
-//		
-//		if(r)
-//			System.out.println("회원가입이 완료되었습니다.");
-//		else
-//			System.out.println("회원가입이 실패하였습니다.");
+		boolean r = dao.InsertUser(user);
+		
+		if(r)
+			System.out.println("회원가입이 완료되었습니다.");
+		else
+			System.out.println("회원가입이 실패하였습니다.");
 
 		// 저장된 거 확인 겸 select 해봄
 		List<User> list = dao.getUserList();

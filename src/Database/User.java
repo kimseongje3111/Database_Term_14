@@ -2,7 +2,8 @@ package Database;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
+
 	private String userId;
 	private String pwd;
 	private String name = null;
@@ -11,11 +12,11 @@ public class User implements Serializable{
 	private String phoneNum = null;
 	private Integer point = null;
 	private Integer ticketPurchaseNum = null;
-	
+
 	public User() {
 		super();
 	}
-	
+
 	public User(String userId) {
 		super();
 		this.userId = userId;
@@ -84,12 +85,10 @@ public class User implements Serializable{
 	public void setTicketPurchaseNum(Integer ticketPurchaseNum) {
 		this.ticketPurchaseNum = ticketPurchaseNum;
 	}
-	
-	// 어디 쓰는지는 모르겠음 아마 입력값을 확인하기 위한 메소드 같다
+
 	@Override
 	public String toString() {
-		return "<USER>UserId : "+userId+" pwd : "+ pwd+" name : "+name
-				+" birth : "+birth +" addr : "+addr+" phoneNum : "+phoneNum
-				+" point : "+point +" ticketPurchaseNum : "+ticketPurchaseNum;
+		return "<USER>UserId : " + userId + " pwd : " + pwd + " name : " + name + " birth : " + birth + " addr : "
+				+ addr + " phoneNum : " + phoneNum + " point : " + point + " ticketPurchaseNum : " + ticketPurchaseNum;
 	}
 }

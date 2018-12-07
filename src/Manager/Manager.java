@@ -9,7 +9,7 @@ public class Manager {
 		while(run) {
 			System.out.println();System.out.println();
 			System.out.println("실행할 업무를 선택하세요.");
-			int chooseWork = this.inputInt("1.영화관 정보 관리  2.상영관 정보 관리  3.영화 정보 관리"
+			int chooseWork = this.inputInt("1.영화관 정보 관리  2.상영관 정보 관리  3.영화 정보 관리 "
 					+ "4.상영 영화 정보 관리  5.VIP 고객 관리  6.영화 티켓 발행  7.로그아웃 ");
 
 			switch (chooseWork) {
