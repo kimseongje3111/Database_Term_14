@@ -75,7 +75,7 @@ public class TheaterManage {
 		theaterId = this.inputString("영화관 아이디 : ");
 		theater.setTheaterId(theaterId);
 
-		boolean b1 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
+		boolean b1 = dao.checkTheaterId(theater);  // DAO 영화관 : 아이디 중복 검사
 
 		if (!b1) {
 			theaterAddr = this.inputString("영화관 주소 : ");

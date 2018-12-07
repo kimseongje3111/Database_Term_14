@@ -19,7 +19,7 @@ public class ScreenManage {
 	DAO dao = DAO.sharedInstance();
 	Screen screen = new Screen();
 	Theater theater = new Theater();
-	
+
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
 		int chooseWork = this.inputInt("1.상영관 등록  2.상영관 정보 수정  9.다른 업무 보기  ");
@@ -35,16 +35,15 @@ public class ScreenManage {
 		case 2: // 상영관 정보 수정
 			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
 			screen.setTheaterId(theaterIdToFix);
-			theater.setTheaterId(theaterIdToFix);
-			
-			boolean r1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 중복 검사
+
+			boolean r1 = true; // DAO 상영관 : 영화관 중복 검사
 
 			if (r1) {
 				fixThisScreen = this.inputString("수정할 상영관 번호 : ");
 				screenId = theaterIdToFix + fixThisScreen;
 				screen.setScreenId(screenId);
 
-				boolean r2 = dao.checkScreenId(screen); // DAO 상영관 : 아이디 중복 검사
+				boolean r2 = true; // DAO 상영관 : 아이디 중복 검사
 
 				if (r2) {
 					this.fixScreenInfo();
@@ -71,9 +70,8 @@ public class ScreenManage {
 	private void addScreen() {
 		theaterId = this.inputString("상영관을 등록할 영화관 아이디 : ");
 		screen.setTheaterId(theaterId);
-		theater.setTheaterId(theaterId);
-		
-		boolean b1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 아이디 중복 검사
+
+		boolean b1 = true; // DAO 상영관 : 영화관 아이디 중복 검사
 
 		if (b1) {
 			screenNum = this.inputString("등록할 상영관 번호 : ");
@@ -84,11 +82,11 @@ public class ScreenManage {
 			screen.setScreenNum(screenNum);
 			screen.setAvailSeat(availSeat);
 
-			boolean b2 = dao.checkScreenId(screen); // DAO 상영관 : 아이디 중복 검사
+			boolean b2 = false; // DAO 상영관 : 아이디 중복 검사
 
 			if (!b2) {
 
-				boolean b3 = dao.insertScreen(screen); // DAO 상영관 : 등록 (해당 영화관의 최대 상영관 수 확인)
+				boolean b3 = true; // DAO 상영관 : 등록 (해당 영화관의 최대 상영관 수 확인)
 
 				if (b3) {
 					System.out.println("상영관이 등록되었습니다.");
@@ -113,7 +111,7 @@ public class ScreenManage {
 			int newAvailSeat = this.inputInt("새로운 상영관 좌석 수 : ");
 			screen.setAvailSeat(newAvailSeat);
 
-			boolean b = dao.updateScreen(screen); // DAO 상영관 : 정보 업데이트
+			boolean b = true; // DAO 상영관 : 정보 업데이트
 
 			if (b) {
 				System.out.println("상영관 좌석 수가 변경되었습니다.");

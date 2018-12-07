@@ -118,7 +118,7 @@ public class MovieManage {
 			
 			if (!b1) {
 				
-				boolean b2 = dao.updateMovieInfo(movie, true); // DAO 영화 : 정보 업데이트 (이전의 영화 제목을 보고)
+				boolean b2 = dao.updateMovieInfo(movie, true); // DAO 영화 : 정보 업데이트 (이전의 영화 제목 보고)
 				
 				if (b2) {
 					System.out.println("영화 제목이 변경되었습니다.");
