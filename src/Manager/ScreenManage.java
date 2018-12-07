@@ -18,6 +18,7 @@ public class ScreenManage {
 
 	DAO dao = DAO.sharedInstance();
 	Screen screen = new Screen();
+	Theater theater = new Theater();
 
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
