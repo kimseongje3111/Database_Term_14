@@ -141,4 +141,54 @@ public class DAO {
 		}
 		return result;
 	}
+	
+	
+	
+	
+
+	// 영화관 테이블 아이디 중복 검사
+	public boolean checkTheaterId() {
+		return true;
+	}
+
+	// 영화관 정보 삽입
+	public boolean insertTheater() {
+		return true;
+	}
+	
+	// 영화관 정보 업데이트
+	public boolean updateTheater() {
+		return true;
+	}
+
+	// 영화관 정보 삭제
+	public boolean deleteTheater() {
+		return true;
+	}
+	
+	// 상영관 아이디 중복 검사
+	public boolean checkScreenId() {
+		return true;
+	}
+
+
+	// 상영관 정보 삽입
+	public boolean insertScreen() {
+		return true;
+	}
+	
+	// 상영관 정보 업데이트
+	public boolean updateScreen() {
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
