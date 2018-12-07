@@ -6,7 +6,6 @@ public class Screen {
 	private String theaterId;
 	private String screenNum;
 	private int availSeat;
-	private String preScreenId;
 
 	public Screen() {
 		super();
@@ -47,14 +46,6 @@ public class Screen {
 
 	public void setAvailSeat(int availSeat) {
 		this.availSeat = availSeat;
-	}
-	
-	public String getPreScreenId() {
-		return preScreenId;
-	}
-
-	public void setPreScreenId(String preScreenId) {
-		this.preScreenId = preScreenId;
 	}
 
 	@Override

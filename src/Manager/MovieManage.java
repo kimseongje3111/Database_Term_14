@@ -6,7 +6,7 @@ import Database.DAO;
 import Database.Movie;
 
 public class MovieManage {
-	
+
 	Scanner scan = new Scanner(System.in);
 	private String movieId;
 	private String movieName;
@@ -14,14 +14,16 @@ public class MovieManage {
 	private String cast;
 	private String rating;
 	private String keyInfo;
-	
+	private String fixThisMovie;
+	private String deleteThisMovie;
+
 	DAO dao = DAO.sharedInstance();
 	Movie movie = new Movie();
-	
+
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
-		int chooseWork = this.inputInt("1.영화 등록  2.영화 정보 수정  3.영화 삭제  9.다른 업무 보기 ");
-		
+		int chooseWork = this.inputInt("1.영화 등록  2.영화 정보 수정  3.영화 삭제  9.다른 업무 보기  ");
+
 		switch (chooseWork) {
 		case 1: // 영화 등록
 			System.out.println("영화를 등록합니다.");
@@ -29,28 +31,44 @@ public class MovieManage {
 			System.out.println();
 			this.run();
 			break;
-			
+
 		case 2: // 영화 정보 수정
-			String fixThisMovie = this.inputString("수정할 영화 : ");
-			movie.setMovieId(fixThisMovie);
-			
-			if(fixThisMovie.equals("얘가 존재하면"))
+			fixThisMovie = this.inputString("수정할 영화 : ");
+			movie.setMovieName(fixThisMovie);
+
+			boolean r1 = true; // DAO 영화 : 제목 중복 검사
+
+			if (r1) {
 				this.fixMovieInfo();
-			else
+				System.out.println();
+			} else {
 				System.out.println("일치하는 영화가 없습니다.");
+			}
+
+			this.run();
 			break;
-			
-		case 3 : // 영화 삭제
-			// 영화리스트를 보여줌
-			String deleteThisMovie = this.inputString("삭제할 영화 : ");
-			this.deleteMovie();
+
+		case 3: // 영화 삭제
+			deleteThisMovie = this.inputString("삭제할 영화 : ");
+			movie.setMovieName(deleteThisMovie);
+
+			boolean r2 = true; // DAO 영화 : 제목 중복 검사
+
+			if (r2) {
+				this.deleteMovie();
+				System.out.println();
+			} else {
+				System.out.println("일치하는 영화가 없습니다.");
+			}
+
+			this.run();
 			break;
-			
+
 		case 9:
 			System.out.println("영화관 관리를 마칩니다.");
 			break;
-			
-		default :
+
+		default:
 			this.run();
 		}
 	}
@@ -59,54 +77,144 @@ public class MovieManage {
 		movieId = this.inputString("등록할 영화 아이디 : ");
 		movie.setMovieId(movieId);
 
-		boolean b1 = false; // DAO 영화 아이디 중복 검사
-		
-		if(!b1) {
-			
+		boolean b1 = false; // DAO 영화 : 아이디 중복 검사
+
+		if (!b1) {
+			movieName = this.inputString("등록할 영화 제목 : ");
+			director = this.inputString("등록할 영화의 감독명 : ");
+			cast = this.inputString("등록할 영화의 출연진 : ");
+			rating = this.inputString("등록할 영화의 등급 : ");
+			keyInfo = this.inputString("등록할 영화의 주요 정보 : ");
+			movie.setMovieName(movieName);
+			movie.setDirector(director);
+			movie.setCast(cast);
+			movie.setRating(rating);
+			movie.setKeyInfo(keyInfo);
+
+			boolean b2 = true; // DAO 영화 : 삽입
+
+			if (b2) {
+				System.out.println("영화가 등록되었습니다.");
+			} else {
+				System.out.println("영화 등록을 실패하였습니다.");
+			}
 		} else {
 			System.out.println("이미 존재하는 영화입니다.");
 		}
-		
-		movieName = this.inputString("등록할 영화 제목 : ");
-		director = this.inputString("등록할 영화의 감독명 : ");
-		cast = this.inputString("등록할 영화의 출연진 : ");
-		rating = this.inputString("등록할 영화의 등급 : ");
-		keyInfo = this.inputString("등록할 영화의 주요 정보 : ");
-		
-		// 영화 추가
-		System.out.println("영화가 등록되었습니다.");
+
 	}
-	
+
 	private void fixMovieInfo() {
 		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.상영관 번호  2.상영관의 최대 좌석 수  9.수정 종료 ");
-		
-		switch(chooseWork) {
-		case 1 : // 상영관 번호
-			String newScreenId = this.inputString("새로운 영화관 번호 : ");
-			// < 상영관 번호 수정 >
+		int chooseWork = this.inputInt("1.영화 제목  2.감독  3.출연진  4.등급  5.주요 정보  9.수정 종료  ");
+
+		switch (chooseWork) {
+		case 1: // 영화 제목
+			String newmovieName = this.inputString("새로운 영화 제목 : ");
+			movie.setPremovieName(fixThisMovie);
+			movie.setMovieName(newmovieName);
+			
+			boolean b1 = false; // DAO 영화 : 제목 중복 검사
+			
+			if (!b1) {
+				
+				boolean b2 = true; // DAO 영화 : 정보 업데이트 (이전의 영화 제목을 보고)
+				
+				if (b2) {
+					System.out.println("영화 제목이 변경되었습니다.");
+				} else {
+					System.out.println("영화 제목 변경을 실패하였습니다.");
+				}
+			} else {
+				System.out.println("이미 존재하는 영화입니다.");
+			}
+			
 			this.fixMovieInfo();
 			break;
-		
-		case 2 : // 상영관 최대 좌석 수
-			int newAvailSeat = this.inputInt("새로운 상영관 좌석 수 : ");
-			// < 좌석수 수정 > - 예외 처리 : 예약 된 수가 새로 입려간 수보다 클 떄??
+
+		case 2: // 감독
+			String newdirector = this.inputString("새로운 영화 감독 : ");
+			movie.setDirector(newdirector);
+			
+			boolean b3 = true; // DAO 영화 : 정보 업데이트
+			
+			if (b3) {
+				System.out.println("영화 감독이 변경되었습니다.");
+			} else {
+				System.out.println("영화 감독 변경을 실패하였습니다.");
+			}
+			
+			this.fixMovieInfo();
+			break;
+
+		case 3: // 출연진
+			String newcast = this.inputString("새로운 영화 출연진 : ");
+			movie.setCast(newcast);
+			
+			boolean b4 = true; // DAO 영화 : 정보 업데이트
+			
+			if (b4) {
+				System.out.println("영화 출연진이 변경되었습니다.");
+			} else {
+				System.out.println("영화 출연진 변경을 실패하였습니다.");
+			}
+			
+			this.fixMovieInfo();
+			break;
+			
+		case 4: // 등급
+			String newrating = this.inputString("새로운 영화 등급 : ");
+			movie.setRating(newrating);
+			
+			boolean b5 = true; // DAO 영화 : 정보 업데이트
+
+			if (b5) {
+				System.out.println("영화 등급이 변경되었습니다.");
+			} else {
+				System.out.println("영화 등급 변경을 실패하였습니다.");
+			}
+			
+			this.fixMovieInfo();
+			break;
+			
+		case 5: // 주요 정보
+			String newkeyInfo = this.inputString("새로운 영화 주요 정보 : ");
+			
+			boolean b6 = true; // DAO 영화 : 정보 업데이트
+			
+			if (b6) {
+				System.out.println("영화 주요 정보가 변경되었습니다.");
+			} else {
+				System.out.println("영화 주요 정보 변경을 실패하였습니다.");
+			}
+			
 			this.fixMovieInfo();
 			break;
 			
 		case 9: // 수정 종료
 			System.out.println("상영관 정보 수정을 마칩니다.");
 			break;
-			
-		default :
+
+		default:
 			this.fixMovieInfo();
 		}
 	}
-	
+
 	private void deleteMovie() {
-		// 삭제
+		if (this.inputString("삭제하시겠습니까? (Y/N) ").equals("Y")) {
+
+			boolean b = true; // DAO 영화 : 삭제
+
+			if (b) {
+				System.out.println("영화가 삭제되었습니다.");
+			} else {
+				System.out.println("영화 삭제를 실패하였습니다.");
+			}
+		} else {
+			System.out.println("영화관 삭제 업무를 취소합니다.");
+		}
 	}
-	
+
 	private int inputInt(String string) {
 		System.out.print(string);
 		return Integer.parseInt(scan.nextLine());

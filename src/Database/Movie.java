@@ -8,6 +8,7 @@ public class Movie {
 	private String cast;
 	private String rating;
 	private String keyInfo;
+	private String premovieName;
 
 	public Movie() {
 		super();
@@ -65,7 +66,15 @@ public class Movie {
 	public void setKeyInfo(String keyInfo) {
 		this.keyInfo = keyInfo;
 	}
-	
+
+	public String getPremovieName() {
+		return premovieName;
+	}
+
+	public void setPremovieName(String premovieName) {
+		this.premovieName = premovieName;
+	}
+
 	@Override
 	public String toString() {
 		return null;

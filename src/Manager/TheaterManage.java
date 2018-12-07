@@ -20,7 +20,7 @@ public class TheaterManage {
 
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
-		int chooseWork = this.inputInt("1.영화관 등록  2.영화관 정보 수정  3.영화관 삭제  9.다른 업무 보기 ");
+		int chooseWork = this.inputInt("1.영화관 등록  2.영화관 정보 수정  3.영화관 삭제  9.다른 업무 보기  ");
 
 		switch (chooseWork) {
 		case 1: // 영화관 등록
@@ -34,7 +34,7 @@ public class TheaterManage {
 			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
 			theater.setTheaterId(theaterIdToFix);
 
-			boolean r1 = true; // DAO 영화관 아이디 중복 검사
+			boolean r1 = true; // DAO 영화관 : 아이디 중복 검사
 
 			if (r1) {
 				this.fixTheaterInfo();
@@ -50,7 +50,7 @@ public class TheaterManage {
 			deleteThisTheater = this.inputString("삭제할 영화관 아이디 : ");
 			theater.setTheaterId(deleteThisTheater);
 
-			boolean r2 = true; // DAO 영화관 아이디 중복 검사
+			boolean r2 = true; // DAO 영화관 : 아이디 중복 검사
 
 			if (r2) {
 				this.deleteTheater();
@@ -65,7 +65,7 @@ public class TheaterManage {
 		case 9: // 종료
 			System.out.println("영화관 관리를 마칩니다.");
 			break;
-			
+
 		default:
 			this.run();
 		}
@@ -75,7 +75,7 @@ public class TheaterManage {
 		theaterId = this.inputString("영화관 아이디 : ");
 		theater.setTheaterId(theaterId);
 
-		boolean b1 = false; // DAO 영화관 아이디 중복 검사
+		boolean b1 = false; // DAO 영화관 : 아이디 중복 검사
 
 		if (!b1) {
 			theaterAddr = this.inputString("영화관 주소 : ");
@@ -85,7 +85,7 @@ public class TheaterManage {
 			theater.setTheaterTel(theaterTel);
 			theater.setScreenNum(screenNum);
 
-			boolean b2 = true; // DAO 영화관 삽입
+			boolean b2 = true; // DAO 영화관 : 삽입
 
 			if (b2) {
 				System.out.println("영화관이 등록되었습니다.");
@@ -100,14 +100,14 @@ public class TheaterManage {
 
 	private void fixTheaterInfo() {
 		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.영화관 주소  2.영화관 전화번호  3.(최대)상영관 수  9.수정 종료 ");
-		
+		int chooseWork = this.inputInt("1.영화관 주소  2.영화관 전화번호  3.(최대)상영관 수  9.수정 종료  ");
+
 		switch (chooseWork) {
 		case 1: // 영화관 주소 수정
 			String newTheaterAddress = this.inputString("새로운 영화관 주소 : ");
 			theater.setTheaterAddr(newTheaterAddress);
 
-			boolean b1 = true; // DAO 영화관 정보 업데이트
+			boolean b1 = true; // DAO 영화관 : 정보 업데이트
 
 			if (b1) {
 				System.out.println("주소가 변경되었습니다.");
@@ -122,7 +122,7 @@ public class TheaterManage {
 			String newTheaterTel = this.inputString("새로운 영화관 전화번호 : ");
 			theater.setTheaterTel(newTheaterTel);
 
-			boolean b2 = true; // DAO 영화관 정보 업데이트
+			boolean b2 = true; // DAO 영화관 : 정보 업데이트
 
 			if (b2) {
 				System.out.println("전화번호가 변경되었습니다.");
@@ -137,7 +137,7 @@ public class TheaterManage {
 			int newScreenNum = this.inputInt("새로 설정할 (최대)상영관 수 : ");
 			theater.setScreenNum(newScreenNum);
 
-			boolean b3 = true; // DAO 영화관 정보 업데이트
+			boolean b3 = true; // DAO 영화관 : 정보 업데이트
 
 			if (b3) {
 				System.out.println("상영관 수가 변경되었습니다.");
@@ -151,7 +151,7 @@ public class TheaterManage {
 		case 9: // 수정 종료
 			System.out.println("영화관 정보 수정을 마칩니다.");
 			break;
-			
+
 		default:
 			this.fixTheaterInfo();
 		}
@@ -159,9 +159,9 @@ public class TheaterManage {
 	}
 
 	private void deleteTheater() {
-		if (this.inputString("삭제하시겠습니까? (Y / N) ").equals("Y")) {
+		if (this.inputString("삭제하시겠습니까? (Y/N) ").equals("Y")) {
 
-			boolean b = true; // DAO 영화관 삭제
+			boolean b = true; // DAO 영화관 : 삭제
 
 			if (b) {
 				System.out.println("영화관이 삭제되었습니다.");

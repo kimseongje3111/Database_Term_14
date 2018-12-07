@@ -2,13 +2,20 @@ package Manager;
 
 import java.util.Scanner;
 
+import Database.DAO;
+import Database.ScreeningMovie;
+
 public class ScreeningMovieManage {
+	
 	Scanner scan = new Scanner(System.in);
 	private int screenMovieId;
 	private String screenDate;
 	private String movieName;
 	private String screenId;
 	private String screenTime;
+	
+	DAO dao = DAO.sharedInstance();
+	ScreeningMovie screeningmovie = new ScreeningMovie();
 	
 	public void run() {
 		System.out.println("실행할 업무를 선택하세요.");
@@ -18,12 +25,14 @@ public class ScreeningMovieManage {
 		case 1: // 영화 등록
 			System.out.println("상영 영화를 등록합니다.");
 			this.addScreeningMovie();
+			System.out.println();
 			this.run();
 			break;
 			
 		case 2: // 상영 영화 삭제
-			// 상영 영화 리스트를 보여줌 -> 영화 id를 입력후 존재여부 확인
 			String fixThisMovie = this.inputString("삭제할 상영 영화 : ");
+			screeningmovie.setMovieName(fixThisMovie);
+			
 			if(fixThisMovie.equals("얘가 존재하면"))
 				this.deleteScreeningMovie();
 			else
