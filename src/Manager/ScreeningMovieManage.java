@@ -1,5 +1,6 @@
 package Manager;
 
+import java.util.List;
 import java.util.Scanner;
 
 import Database.DAO;
@@ -19,7 +20,13 @@ public class ScreeningMovieManage {
 	ScreeningMovie screeningmovie = new ScreeningMovie();
 
 	public void run() {
-		// 상영 영화 리스트 (번호 포함) 보여주기
+		System.out.println("<<<<<<<<<<<<<<<<<<<< 상영 영화 목록 >>>>>>>>>>>>>>>>>>>>");
+		List<ScreeningMovie> screening_list = null; // DAO 상영 영화 : 상영 영화 목록 가져오기
+		for(ScreeningMovie sm : screening_list) {
+			System.out.println(sm);
+		}
+		System.out.println();
+		
 		System.out.println("실행할 업무를 선택하세요.");
 		int chooseWork = this.inputInt("1.상영 영화 등록  2.상영 영화 삭제  9.다른 업무 보기  ");
 
@@ -35,7 +42,7 @@ public class ScreeningMovieManage {
 			deleteThisMovie = this.inputInt("삭제할 상영 영화 번호 : ");
 			screeningmovie.setScreenMovieId(deleteThisMovie);
 
-			boolean r = true; // DAO 상영 영화 : 번호 중복 검사
+			boolean r = dao.checkScreeningMovieId(screeningmovie); // DAO 상영 영화 : 번호 중복 검사
 
 			if (r) {
 				this.deleteScreeningMovie();
@@ -60,7 +67,7 @@ public class ScreeningMovieManage {
 		screenMovieId = this.inputInt("등록할 상영 영화 번호 : ");
 		screeningmovie.setScreenMovieId(screenMovieId);
 
-		boolean b1 = false; // DAO 상영 영화 : 번호 중복 검사
+		boolean b1 = dao.checkScreeningMovieId(screeningmovie); // DAO 상영 영화 : 번호 중복 검사
 
 		if (!b1) {
 			screenDate = this.inputString("상영 날짜 : ");
@@ -72,7 +79,7 @@ public class ScreeningMovieManage {
 			screeningmovie.setScreenId(screenId);
 			screeningmovie.setScreenTime(screenTime);
 
-			boolean b2 = true; // DAO 상영 영화 : 삽입
+			boolean b2 = dao.insertScreeningMovie(screeningmovie); // DAO 상영 영화 : 삽입
 
 			if (b2) {
 				System.out.println("상영 영화가 등록되었습니다.");
@@ -88,7 +95,7 @@ public class ScreeningMovieManage {
 	private void deleteScreeningMovie() {
 		if (this.inputString("삭제하시겠습니까? (Y/N) ").equals("Y")) {
 
-			boolean b = true; // DAO 상영 영화 : 삭제
+			boolean b = dao.deleteScreeningMovie(screeningmovie); // DAO 상영 영화 : 삭제
 
 			if (b) {
 				System.out.println("상영 영화가 삭제되었습니다.");

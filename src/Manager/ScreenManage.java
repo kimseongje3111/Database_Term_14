@@ -15,6 +15,7 @@ public class ScreenManage {
 	private int availSeat;
 	private String theaterIdToFix;
 	private String fixThisScreen;
+	private String deleteThisScreen;
 
 	DAO dao = DAO.sharedInstance();
 	Screen screen = new Screen();
@@ -36,7 +37,7 @@ public class ScreenManage {
 			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
 			screen.setTheaterId(theaterIdToFix);
 			theater.setTheaterId(theaterId);
-			
+
 			boolean r1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 중복 검사
 
 			if (r1) {
@@ -58,7 +59,7 @@ public class ScreenManage {
 
 			this.run();
 			break;
-
+			
 		case 9:
 			System.out.println("영화관 관리를 마칩니다.");
 			break;
@@ -105,32 +106,18 @@ public class ScreenManage {
 	}
 
 	private void fixScreenInfo() {
-		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.상영관의 최대 좌석 수  9.수정 종료  ");
+		System.out.println("변경할 정보를 입력하세요.");
+		int newAvailSeat = this.inputInt("새로운 상영관 좌석 수 : ");
+		screen.setAvailSeat(newAvailSeat);
 
-		switch (chooseWork) {
-		case 1: // 상영관 최대 좌석 수
-			int newAvailSeat = this.inputInt("새로운 상영관 좌석 수 : ");
-			screen.setAvailSeat(newAvailSeat);
+		boolean b = dao.updateScreen(screen); // DAO 상영관 : 정보 업데이트
 
-			boolean b = dao.updateScreen(screen); // DAO 상영관 : 정보 업데이트
-
-			if (b) {
-				System.out.println("상영관 좌석 수가 변경되었습니다.");
-			} else {
-				System.out.println("상영관 좌석 수 변경을 실패하였습니다.");
-			}
-
-			this.fixScreenInfo();
-			break;
-
-		case 9: // 수정 종료
-			System.out.println("상영관 정보 수정을 마칩니다.");
-			break;
-
-		default:
-			this.fixScreenInfo();
+		if (b) {
+			System.out.println("상영관 좌석 수가 변경되었습니다.");
+		} else {
+			System.out.println("상영관 좌석 수 변경을 실패하였습니다.");
 		}
+
 	}
 
 	private int inputInt(String string) {

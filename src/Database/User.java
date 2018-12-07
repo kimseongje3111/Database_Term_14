@@ -88,7 +88,6 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "<USER>UserId : " + userId + " pwd : " + pwd + " name : " + name + " birth : " + birth + " addr : "
-				+ addr + " phoneNum : " + phoneNum + " point : " + point + " ticketPurchaseNum : " + ticketPurchaseNum;
+		return null;
 	}
 }
