@@ -61,7 +61,7 @@ public class ScreeningMovie implements Serializable{
 	
 	@Override
 	public String toString() {
-		return null;
+		return String.valueOf(this.screenMovieId) + "." + this.movieName + " : " + this.screenDate + "/" + this.screenTime + "/" + this.screenId;
 	}
 
 }

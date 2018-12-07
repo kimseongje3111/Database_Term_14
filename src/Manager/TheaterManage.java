@@ -75,7 +75,7 @@ public class TheaterManage {
 		theaterId = this.inputString("영화관 아이디 : ");
 		theater.setTheaterId(theaterId);
 
-		boolean b1 = dao.checkTheaterId(theater);  // DAO 영화관 : 아이디 중복 검사
+		boolean b1 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
 
 		if (!b1) {
 			theaterAddr = this.inputString("영화관 주소 : ");
@@ -99,61 +99,21 @@ public class TheaterManage {
 	}
 
 	private void fixTheaterInfo() {
-		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.영화관 주소  2.영화관 전화번호  3.(최대)상영관 수  9.수정 종료  ");
+		System.out.println("변경할 정보를 입력하세요.");
+		String newTheaterAddress = this.inputString("새로운 영화관 주소 : ");
+		String newTheaterTel = this.inputString("새로운 영화관 전화번호 : ");
+		int newScreenNum = this.inputInt("새로 설정할 (최대)상영관 수 : ");
 
-		switch (chooseWork) {
-		case 1: // 영화관 주소 수정
-			String newTheaterAddress = this.inputString("새로운 영화관 주소 : ");
-			theater.setTheaterAddr(newTheaterAddress);
+		theater.setTheaterAddr(newTheaterAddress);
+		theater.setTheaterTel(newTheaterTel);
+		theater.setScreenNum(newScreenNum);
 
-			boolean b1 = dao.updateTheater(theater); // DAO 영화관 : 정보 업데이트
+		boolean b = dao.updateTheater(theater);
 
-			if (b1) {
-				System.out.println("주소가 변경되었습니다.");
-			} else {
-				System.out.println("주소 변경을 실패하였습니다.");
-			}
-
-			this.fixTheaterInfo();
-			break;
-
-		case 2: // 영화관 전화번호 수정
-			String newTheaterTel = this.inputString("새로운 영화관 전화번호 : ");
-			theater.setTheaterTel(newTheaterTel);
-
-			boolean b2 = dao.updateTheater(theater); // DAO 영화관 : 정보 업데이트
-
-			if (b2) {
-				System.out.println("전화번호가 변경되었습니다.");
-			} else {
-				System.out.println("전화번호 변경을 실패하였습니다.");
-			}
-
-			this.fixTheaterInfo();
-			break;
-
-		case 3: // 영화관 최대 상영관 수 수정
-			int newScreenNum = this.inputInt("새로 설정할 (최대)상영관 수 : ");
-			theater.setScreenNum(newScreenNum);
-
-			boolean b3 = dao.updateTheater(theater); // DAO 영화관 : 정보 업데이트
-
-			if (b3) {
-				System.out.println("상영관 수가 변경되었습니다.");
-			} else {
-				System.out.println("상영관 수 변경을 실패하였습니다.");
-			}
-
-			this.fixTheaterInfo();
-			break;
-
-		case 9: // 수정 종료
-			System.out.println("영화관 정보 수정을 마칩니다.");
-			break;
-
-		default:
-			this.fixTheaterInfo();
+		if (b) {
+			System.out.println("영화관 정보가 변경되었습니다.");
+		} else {
+			System.out.println("영화관 정보 변경을 실패하였습니다.");
 		}
 
 	}
@@ -171,6 +131,7 @@ public class TheaterManage {
 		} else {
 			System.out.println("영화관 삭제 업무를 취소합니다.");
 		}
+
 	}
 
 	private int inputInt(String string) {

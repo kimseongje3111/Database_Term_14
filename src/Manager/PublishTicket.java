@@ -17,6 +17,12 @@ public class PublishTicket {
 		userId = this.inputString("발권할 고객의 아이디 : ");
 
 		List<Ticket> ticket_list = null; // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)
+		
+		System.out.println("<<<<<<<<<<<<<<<<<<<< 예매자 티켓 목록 >>>>>>>>>>>>>>>>>>>>");
+		for(Ticket ticket : ticket_list) {
+			System.out.println(ticket);
+		}
+		System.out.println();
 
 		for (Ticket ticket : ticket_list) {
 			if (!ticket.isPaymentBool()) {

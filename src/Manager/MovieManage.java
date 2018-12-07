@@ -105,99 +105,25 @@ public class MovieManage {
 	}
 
 	private void fixMovieInfo() {
-		System.out.println("변경할 정보를 선택하세요.");
-		int chooseWork = this.inputInt("1.영화 제목  2.감독  3.출연진  4.등급  5.주요 정보  9.수정 종료  ");
-
-		switch (chooseWork) {
-		case 1: // 영화 제목
-			String newmovieName = this.inputString("새로운 영화 제목 : ");
-			movie.setPremovieName(fixThisMovie);
-			movie.setMovieName(newmovieName);
-			
-			boolean b1 = dao.checkMovieName(movie); // DAO 영화 : 제목 중복 검사
-			
-			if (!b1) {
-				
-				boolean b2 = dao.updateMovieInfo(movie, true); // DAO 영화 : 정보 업데이트 (이전의 영화 제목 보고)
-				
-				if (b2) {
-					System.out.println("영화 제목이 변경되었습니다.");
-				} else {
-					System.out.println("영화 제목 변경을 실패하였습니다.");
-				}
-			} else {
-				System.out.println("이미 존재하는 영화입니다.");
-			}
-			
-			this.fixMovieInfo();
-			break;
-
-		case 2: // 감독
-			String newdirector = this.inputString("새로운 영화 감독 : ");
-			movie.setDirector(newdirector);
-			
-			boolean b3 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
-			
-			if (b3) {
-				System.out.println("영화 감독이 변경되었습니다.");
-			} else {
-				System.out.println("영화 감독 변경을 실패하였습니다.");
-			}
-			
-			this.fixMovieInfo();
-			break;
-
-		case 3: // 출연진
-			String newcast = this.inputString("새로운 영화 출연진 : ");
-			movie.setCast(newcast);
-			
-			boolean b4 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
-			
-			if (b4) {
-				System.out.println("영화 출연진이 변경되었습니다.");
-			} else {
-				System.out.println("영화 출연진 변경을 실패하였습니다.");
-			}
-			
-			this.fixMovieInfo();
-			break;
-			
-		case 4: // 등급
-			String newrating = this.inputString("새로운 영화 등급 : ");
-			movie.setRating(newrating);
-			
-			boolean b5 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
-
-			if (b5) {
-				System.out.println("영화 등급이 변경되었습니다.");
-			} else {
-				System.out.println("영화 등급 변경을 실패하였습니다.");
-			}
-			
-			this.fixMovieInfo();
-			break;
-			
-		case 5: // 주요 정보
-			String newkeyInfo = this.inputString("새로운 영화 주요 정보 : ");
-			
-			boolean b6 = dao.updateMovieInfo(movie, false); // DAO 영화 : 정보 업데이트
-			
-			if (b6) {
-				System.out.println("영화 주요 정보가 변경되었습니다.");
-			} else {
-				System.out.println("영화 주요 정보 변경을 실패하였습니다.");
-			}
-			
-			this.fixMovieInfo();
-			break;
-			
-		case 9: // 수정 종료
-			System.out.println("상영관 정보 수정을 마칩니다.");
-			break;
-
-		default:
-			this.fixMovieInfo();
+		System.out.println("변경할 정보를 입력하세요.");
+		String newdirector = this.inputString("새로운 영화 감독 : ");
+		String newcast = this.inputString("새로운 영화 출연진 : ");
+		String newrating = this.inputString("새로운 영화 등급 : ");
+		String newkeyInfo = this.inputString("새로운 영화 주요 정보 : ");
+		
+		movie.setDirector(newdirector);
+		movie.setCast(newcast);
+		movie.setRating(newrating);
+		movie.setKeyInfo(newkeyInfo);
+		
+		boolean b = dao.updateMovieInfo(movie);
+		
+		if (b) {
+			System.out.println("영화 정보가 변경되었습니다.");
+		} else {
+			System.out.println("영화 정보 변경을 실패하였습니다.");
 		}
+	
 	}
 
 	private void deleteMovie() {
