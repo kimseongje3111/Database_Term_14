@@ -145,11 +145,6 @@ public class DAO {
 	
 	
 	
-	
-	
-	
-	
-	
 
 	// 영화관 테이블 아이디 중복 검사
 	public boolean checkTheaterId() {
