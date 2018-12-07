@@ -7,7 +7,7 @@ public class Movie implements Serializable{
 	private String movieId;
 	private String movieName;
 	private String director;
-	private String cast;
+	private String casting;
 	private String rating;
 	private String keyInfo;
 	private String premovieName;
@@ -46,11 +46,11 @@ public class Movie implements Serializable{
 	}
 
 	public String getCast() {
-		return cast;
+		return casting;
 	}
 
 	public void setCast(String cast) {
-		this.cast = cast;
+		this.casting = cast;
 	}
 
 	public String getRating() {

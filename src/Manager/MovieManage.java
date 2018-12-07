@@ -11,7 +11,7 @@ public class MovieManage {
 	private String movieId;
 	private String movieName;
 	private String director;
-	private String cast;
+	private String casting;
 	private String rating;
 	private String keyInfo;
 	private String fixThisMovie;
@@ -82,12 +82,12 @@ public class MovieManage {
 		if (!b1) {
 			movieName = this.inputString("등록할 영화 제목 : ");
 			director = this.inputString("등록할 영화의 감독명 : ");
-			cast = this.inputString("등록할 영화의 출연진 : ");
+			casting = this.inputString("등록할 영화의 출연진 : ");
 			rating = this.inputString("등록할 영화의 등급 : ");
 			keyInfo = this.inputString("등록할 영화의 주요 정보 : ");
 			movie.setMovieName(movieName);
 			movie.setDirector(director);
-			movie.setCast(cast);
+			movie.setCast(casting);
 			movie.setRating(rating);
 			movie.setKeyInfo(keyInfo);
 
