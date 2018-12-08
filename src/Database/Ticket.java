@@ -13,7 +13,7 @@ public class Ticket implements Serializable{
 	private String seatNum;
 	private String userId;
 	private boolean paymentBool;
-	private String usedPoint;
+	private int usedPoint;
 
 	public Ticket() {
 		super();
@@ -96,11 +96,11 @@ public class Ticket implements Serializable{
 		this.paymentBool = paymentBool;
 	}
 
-	public String getUsedPoint() {
+	public int getUsedPoint() {
 		return usedPoint;
 	}
 
-	public void setUsedPoint(String usedPoint) {
+	public void setUsedPoint(int usedPoint) {
 		this.usedPoint = usedPoint;
 	}
 
