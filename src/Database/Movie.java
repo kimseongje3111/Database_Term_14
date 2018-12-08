@@ -45,12 +45,12 @@ public class Movie implements Serializable{
 		this.director = director;
 	}
 
-	public String getCast() {
+	public String getCasting() {
 		return casting;
 	}
 
-	public void setCast(String cast) {
-		this.casting = cast;
+	public void setCasting(String casting) {
+		this.casting = casting;
 	}
 
 	public String getRating() {
