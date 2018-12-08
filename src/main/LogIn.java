@@ -25,7 +25,7 @@ public class LogIn {
 			user.setUserId(id);
 			user.setPwd(pw);
 			
-			boolean r = true; // DAO 로그인 : 아이디, 비밀번호 확인
+			boolean r = dao.checkLogin(user); // DAO 로그인 : 아이디, 비밀번호 확인
 			
 			if (r) {
 				System.out.println("환영합니다 고객님.");

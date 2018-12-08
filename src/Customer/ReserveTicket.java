@@ -106,6 +106,7 @@ public class ReserveTicket {
 		// DAO 예약 좌석 : 예약 좌석 리스트 가져오기
 		List<ReservedSeat> rs_list = dao.getSeatList(result.getScreenMovieId(), result.getScreenDate());
 
+		System.out.println("<<<<<<<<<<<<<<<<<<<< 예약 좌석 목록 >>>>>>>>>>>>>>>>>>>>");
 		int availcount = 0;
 		int count = 0;
 		for (ReservedSeat rs : rs_list) {
@@ -120,6 +121,7 @@ public class ReserveTicket {
 			}
 			count++;
 		}
+		System.out.println();
 		System.out.println();
 
 		int howManyReservation = 0;
@@ -155,14 +157,21 @@ public class ReserveTicket {
 
 		List<Ticket> result_ticket = null;
 		result_ticket = this.finishReservationWithchoossingPay(ticket_list, user);
+		boolean isFinished = true;
 		for (Ticket rt : result_ticket) {
 			boolean r6 = dao.insertTicket(rt); // DAO 영화 예매 : 티켓 삽입
 
 			if (!r6) {
-				System.out.println("예매를 실패하였습니다.");
+				isFinished = false;
 			}
 		}
-		System.out.println("에매가 완료되었습니다.");
+		
+		if (isFinished) {
+			System.out.println("에매가 완료되었습니다.");
+		} else {
+			System.out.println("예매를 실패하였습니다.");
+		}
+		
 	}
 
 	private List<Ticket> finishReservationWithchoossingPay(List<Ticket> list, User user) {
@@ -179,7 +188,7 @@ public class ReserveTicket {
 			break;
 
 		default:
-			System.out.println("다시 입력하시오.");
+			System.out.println("다시 입력하세요.");
 			this.finishReservationWithchoossingPay(list, user);
 		}
 
@@ -188,7 +197,8 @@ public class ReserveTicket {
 
 	private List<Ticket> internetPay(List<Ticket> list, User user) {
 		List<Ticket> result = new ArrayList<>();
-		System.out.println("총 " + list.size() + "개의 표에 대해서 결제를 진행합니다.");
+		System.out.println("<<<<<< 총 " + list.size() + "개의 표에 대해서 결제를 진행합니다. >>>>>>");
+		System.out.println();
 
 		for (int i = 0; i < list.size(); i++) {
 			int user_point = dao.getUsedPoint(user); // DAO 티켓 발권 : 예매자의 가용 포인트 가져오기
@@ -197,10 +207,10 @@ public class ReserveTicket {
 			int point_use = this.inputInt("사용할 포인트 : ");
 
 			if (user_point < 1000) {
-				System.out.println("포인트는 1000점 이상부터 사용 가능합니다.");
+				System.out.println("포인트는 1000P 이상부터 사용 가능합니다.");
 				dao.ticketing(user, false, 0); // DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
-
-				System.out.println("포인트를 사용하지 않았습니다. 포인트 100점을 적립합니다.");
+				
+				System.out.println("포인트를 사용하지 않았습니다. 포인트 100P 를 적립합니다.");
 				list.get(i).setPaymentBool(true);
 				list.get(i).setUsedPoint(0);
 			} else {
@@ -208,14 +218,14 @@ public class ReserveTicket {
 
 					dao.ticketing(user, false, 0); // DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
 
-					System.out.println("포인트를 사용하지 않았습니다. 포인트 100점을 적립합니다.");
+					System.out.println("포인트를 사용하지 않았습니다. 포인트 100P 를 적립합니다.");
 				} else if (user_point < point_use) {
 					System.out.println("사용할 수 있는 포인트를 초과하였습니다. 다시 결제를 진행합니다.");
 					this.internetPay(list, user);
 				} else {
 					dao.ticketing(user, true, point_use); // DAO 티켓 발권 : 포인트 사용, 사용자의 가용 포인트 감소, 티켓 구매 횟수 증가
 
-					System.out.println("포인트 " + point_use + "점을 사용하였습니다.");
+					System.out.println("포인트 " + point_use + "P 를 사용하였습니다.");
 				}
 				list.get(i).setPaymentBool(true);
 				list.get(i).setUsedPoint(point_use);
