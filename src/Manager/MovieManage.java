@@ -87,7 +87,7 @@ public class MovieManage {
 			keyInfo = this.inputString("등록할 영화의 주요 정보 : ");
 			movie.setMovieName(movieName);
 			movie.setDirector(director);
-			movie.setCast(casting);
+			movie.setCasting(casting);
 			movie.setRating(rating);
 			movie.setKeyInfo(keyInfo);
 
@@ -112,12 +112,12 @@ public class MovieManage {
 		String newkeyInfo = this.inputString("새로운 영화 주요 정보 : ");
 
 		movie.setDirector(newdirector);
-		movie.setCast(newcast);
+		movie.setCasting(newcast);
 		movie.setRating(newrating);
 		movie.setKeyInfo(newkeyInfo);
-
+		
 		boolean b = dao.updateMovieInfo(movie);
-
+		
 		if (b) {
 			System.out.println("영화 정보가 변경되었습니다.");
 		} else {
