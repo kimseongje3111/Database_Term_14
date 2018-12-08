@@ -631,7 +631,7 @@ public class DAO {
 		int count = 0;
 		if (this.connect()) {
 			try {
-				for (int i = 0 ; i < count; i++) {
+				for (count = 1 ; count < seatNum + 1; count++) {
 					String sql = "INSERT INTO reservedSeat VALUES (?, ?, ?, ?)";
 					PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -640,7 +640,6 @@ public class DAO {
 					pstmt.setInt(3, 0);										// default = 0
 					pstmt.setString(4, sMovie.getScreenDate());
 
-					count++;
 					pstmt.close();
 				}
 				this.close();
@@ -737,7 +736,7 @@ public class DAO {
 						t.setSeatNum(rs.getString("seatNum"));
 						t.setUserId(rs.getString("userId"));
 						t.setPaymentBool(rs.getBoolean("paymentBool"));
-						t.setUsedPoint(rs.getString("usedPoint"));
+						t.setUsedPoint(rs.getInt("usedPoint"));
 						list.add(t);
 					}
 				}
@@ -792,8 +791,8 @@ public class DAO {
 				}else {	// T가 FALSE면 포인트 사용 X + 100
 					sql = "UPDATE user SET point = point + 100, ticketPurchaseNum = ticketPurchaseNum + 1 WHERE userId = ?";
 				}
-				
-				
+
+
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
 				pstmt.setString(1, uid);
@@ -850,7 +849,7 @@ public class DAO {
 
 
 	// 22. VIP 관리
-	public List<String> getVipList(String period){
+	public List<String> getVipList(String period){						///////////////////////////////////////////////////////////////////
 		List<String> list = null;
 		String temp[] = period.split("~");
 		int start = Integer.parseInt(temp[0]);			// ex) 20181208
@@ -901,7 +900,7 @@ public class DAO {
 			try {
 				String sql = "SELECT * FROM user WHERE userId = '"+ userid +"';";
 				stmt = conn.createStatement();
-				
+
 				if(stmt != null) {
 					rs = stmt.executeQuery(sql);
 					rs.next();
@@ -914,7 +913,7 @@ public class DAO {
 					u.setPoint(rs.getInt("point"));
 					u.setTicketPurchaseNum(rs.getInt("ticketPurchaseNum"));
 				}
-				
+
 			} catch(SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -924,8 +923,8 @@ public class DAO {
 		}
 		return u;
 	}
-	
-	
+
+
 	// 24. 회원 정보 수정 - 수정된 정보 업데이트 (User 객체 / id, 포인트, 구매횟수 x)
 	public boolean editUserInfo(User user) {
 		boolean result = false;
@@ -939,12 +938,12 @@ public class DAO {
 				pstmt.setString(3, user.getBirth());
 				pstmt.setString(4, user.getAddr());
 				pstmt.setString(5, user.getPhoneNum());
-				
+
 				int r = pstmt.executeUpdate();
 				if(r > 0) {
 					result = true;
 				}
-				
+
 				pstmt.close();
 				this.close();
 			}catch(SQLException e) {
@@ -956,13 +955,13 @@ public class DAO {
 		}
 		return result;
 	}
-	
-	
+
+
 	// 25. 회원 탈퇴 - 정보 삭제 (User 객체)
 	public boolean deleteUser(User user) {
 		boolean result = false;
 		//String userid = user.getUserId();
-		
+
 		if (this.connect()) {
 			try {
 				String sql = "DELETE FROM user WHERE userId = ?";
@@ -987,38 +986,41 @@ public class DAO {
 		}
 		return result;
 	}
-	
-	
+
+
 	// 26. 영화 차트 출력
-	public List<String> printMovieRating(){
+	public List<String> printMovieRating(){					// 예매율 : 예약이 되있는 것/ 총 좌석 번호//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44
 		List<String> list = new ArrayList<String>();
+
 		
 		return list;
 	}
-	
+
 	// 27. 영화 예약 - 예약 좌석 리스트 가져오기
-	public List<ReservedSeat> getSeatList(String id, String date){
-		List<ReservedSeat> list = new ArrayList<ReservedSeat>();
-		
-		String sql = "SELECT * FROM reservedSeat WHERE screenMovieId = '"+ id +"' onScreenDate = '"+ date +"';";
-		
+	public List<ReservedSeat> getSeatList(int id, String date){		// 상영 영화 번호, 상영영화 상영날짜
+		List<ReservedSeat> list = null;
+
+		String sql = "SELECT * FROM reservedSeat WHERE screenMovieId = '"+ String.valueOf(id) +"' onScreenDate = '"+ date +"';";
+
 		if(connect()) {
 			try {
 				stmt = conn.createStatement();
-				
+
 				if(stmt != null) {
 					rs = stmt.executeQuery(sql);
+
+					list = new ArrayList<ReservedSeat>();
 					
 					while(rs.next()) {
 						ReservedSeat seat = new ReservedSeat();
 						seat.setScreenMovieId(rs.getInt("screenMovieId"));
 						seat.setSeat(rs.getString("seat"));
 						seat.setReserveBool(rs.getBoolean("reserveBool"));
-						
+
 						list.add(seat);
 					}
 				}
-				
+
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -1028,7 +1030,7 @@ public class DAO {
 		}
 		return list;
 	}
-	
+
 	// 28. 영화 예약 - 티켓 삽입 (Ticket 객체)
 	public boolean insertTicket(Ticket ticket) {
 		boolean result = false;
@@ -1047,7 +1049,82 @@ public class DAO {
 				pstmt.setString(7, ticket.getSeatNum());
 				pstmt.setString(8, ticket.getUserId());
 				pstmt.setBoolean(9, ticket.isPaymentBool());
-				pstmt.setInt(10, ticket.);
+				pstmt.setInt(10, ticket.getUsedPoint());
+
+				int r = pstmt.executeUpdate();
+				if (r > 0) {
+					result = true;
+				}
+				// 데이터베이스 생성 객체 해제
+				pstmt.close();
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+	}
+
+
+	// 29. 영화 예약 확인 - 예매자 티켓 출력
+	public List<Ticket> printAllTicket(User user){
+		List<Ticket> list = null;
+
+		String sql = "SELECT * FROM ticket WHERE userId = '"+ user.getUserId() +"';";
+
+		if(connect()) {
+			try {
+				stmt = conn.createStatement();
+
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+
+					list = new ArrayList<Ticket>();
+					
+					while(rs.next()) {
+						Ticket t = new Ticket();
+						t.setTicketId(rs.getString("ticketId"));
+						t.setMovieName(rs.getString("movieName"));
+						t.setTheaterName(rs.getString("theaterName"));
+						t.setScreenNum(rs.getString("screenNum"));
+						t.setScreenDate(rs.getString("screenDate"));
+						t.setScreenTime(rs.getString("screenTime"));
+						t.setSeatNum(rs.getString("seatNum"));
+						t.setUserId(rs.getString("userId"));
+						t.setPaymentBool(rs.getBoolean("paymentBool"));
+						t.setUsedPoint(rs.getInt("availPoint"));
+						list.add(t);
+					}
+				}
+
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}else {
+			System.out.println("데이터베이스 연결에 실패하였습니다.");
+			System.exit(0);
+		}
+		return list;
+
+
+	}
+
+
+	// 30. 예약 취소 - 예매자 티켓 삭제
+
+	public boolean deleteTicket(Ticket ticket) {
+		boolean result = false;
+
+		if (this.connect()) {
+			try {
+				String sql = "DELETE FROM ticket WHERE ticketId = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				pstmt.setString(1, ticket.getTicketId());
+
 				int r = pstmt.executeUpdate();
 
 				if (r > 0) {
@@ -1065,14 +1142,5 @@ public class DAO {
 		}
 		return result;
 	}
-	// 29. 영화 예약 확인 - 예매자 티켓 출력
-	
-	// 30. 예약 취소 - 예매자 티켓 삭제
-	
-	//
-
-
-
-
 
 }
