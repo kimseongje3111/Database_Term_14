@@ -33,7 +33,7 @@ public class MovieManage {
 			break;
 
 		case 2: // 영화 정보 수정
-			fixThisMovie = this.inputString("수정할 영화 : ");
+			fixThisMovie = this.inputString("수정할 영화 제목 : ");
 			movie.setMovieName(fixThisMovie);
 
 			boolean r1 = dao.checkMovieName(movie); // DAO 영화 : 제목 중복 검사
@@ -49,7 +49,7 @@ public class MovieManage {
 			break;
 
 		case 3: // 영화 삭제
-			deleteThisMovie = this.inputString("삭제할 영화 : ");
+			deleteThisMovie = this.inputString("삭제할 영화 제목 : ");
 			movie.setMovieName(deleteThisMovie);
 
 			boolean r2 = dao.checkMovieName(movie); // DAO 영화 : 제목 중복 검사
@@ -74,13 +74,13 @@ public class MovieManage {
 	}
 
 	private void addMovie() {
-		movieId = this.inputString("등록할 영화 아이디 : ");
+		movieId = this.inputString("등록할 영화 아이디 (ex.Movie1) : ");
 		movie.setMovieId(movieId);
 
 		boolean b1 = dao.checkMovieId(movie); // DAO 영화 : 아이디 중복 검사
 
 		if (!b1) {
-			movieName = this.inputString("등록할 영화 제목 : ");
+			movieName = this.inputString("등록할 영화 제목 (ex.ironman) : ");
 			director = this.inputString("등록할 영화의 감독명 : ");
 			casting = this.inputString("등록할 영화의 출연진 : ");
 			rating = this.inputString("등록할 영화의 등급 : ");

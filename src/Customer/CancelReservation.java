@@ -14,7 +14,7 @@ public class CancelReservation {
 	DAO dao = DAO.sharedInstance();
 
 	public void run(User user, List<Ticket> list) {
-		int choose = this.inputInt("예매를 취소할 티켓을 선택하세요. : ");
+		int choose = this.inputInt("예매를 취소할 티켓을 선택하세요. (ex.1) : ");
 		Ticket remove_ticket = list.remove(choose - 1);
 		int screenMovieNum = 0;
 		

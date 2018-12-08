@@ -34,7 +34,7 @@ public class ReserveTicket {
 		System.out.println();
 
 		// 영화 제목
-		movieName = this.inputString("영화 제목을 입력하시오. : ");
+		movieName = this.inputString("영화 제목을 입력하시오. (ex.ironman) : ");
 		Movie movie = new Movie();
 		movie.setMovieName(movieName);
 
@@ -46,7 +46,7 @@ public class ReserveTicket {
 		}
 
 		// 영화관
-		theaterName = this.inputString("영화관을 고르세요. : ");
+		theaterName = this.inputString("영화관을 고르세요. (ex.daejeon_cgv) : ");
 		Theater theater = new Theater(theaterName);
 
 		boolean r2 = dao.checkTheaterId(theater);
@@ -58,7 +58,7 @@ public class ReserveTicket {
 
 		// 상영날짜
 		boolean r3 = false;
-		screenDate = this.inputString("상영날짜를 택하세요.");
+		screenDate = this.inputString("상영날짜를 택하세요. (ex.20181212) : ");
 		for (ScreeningMovie sm : screening_list) {
 			if (sm.getScreenDate().equals(screenDate)) {
 				r3 = true;
@@ -72,7 +72,7 @@ public class ReserveTicket {
 
 		// 상영시간
 		boolean r4 = false;
-		screenTime = this.inputString("상영시간을 입력하세요. : ");
+		screenTime = this.inputString("상영시간을 입력하세요. (ex.1315) : ");
 		for (ScreeningMovie sm : screening_list) {
 			if (sm.getScreenTime().equals(screenTime)) {
 				r4 = true;
@@ -84,7 +84,7 @@ public class ReserveTicket {
 			this.run(user);
 		}
 
-		screenNum = this.inputString("상영관을 입력하세요. : ");
+		screenNum = this.inputString("상영관 번호를 입력하세요. (ex.1) : ");
 		String screenId = theaterName + screenNum;
 		Screen screen = new Screen(screenId);
 
@@ -113,25 +113,25 @@ public class ReserveTicket {
 				System.out.println();
 			}
 			if (rs.isReserveBool()) {
-				System.out.print(String.format("%3s : X", rs.getSeat()));
+				System.out.print(String.format("%3$[%s] : X", rs.getSeat()));
 			} else {
 				availcount++;
-				System.out.print(String.format("%3s : O", rs.getSeat()));
+				System.out.print(String.format("%3$[%s] : O", rs.getSeat()));
 			}
 			count++;
-
 		}
+		System.out.println();
 
 		int howManyReservation = 0;
 		do {
-			howManyReservation = this.inputInt("몇개의 좌석을 예매하겠습니까. : ");
+			howManyReservation = this.inputInt("몇 개의 좌석을 예매하겠습니까? : ");
 
 		} while (availcount < howManyReservation);
 
 		List<Ticket> ticket_list = new ArrayList<>();
 		for (int i = 0; i < howManyReservation; i++) {
 			Ticket ticket = new Ticket();
-			String seatNumber = this.inputString("좌석을 입력하세요 : ");
+			String seatNumber = this.inputString("좌석을 입력하세요. (ex.1) : ");
 			for (ReservedSeat rs : rs_list) {
 				if (rs.getSeat().equals(seatNumber)) {
 					if (!rs.isReserveBool()) {
@@ -167,7 +167,7 @@ public class ReserveTicket {
 
 	private List<Ticket> finishReservationWithchoossingPay(List<Ticket> list, User user) {
 		List<Ticket> result = null;
-		int howToPay = this.inputInt("결제수단을 선택하세요. (1.인터넷 결제  2.현장 결제)");
+		int howToPay = this.inputInt("결제수단을 선택하세요. (1.인터넷 결제  2.현장 결제) : ");
 
 		switch (howToPay) {
 		case 1: // 인터넷 결제
