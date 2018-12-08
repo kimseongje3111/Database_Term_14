@@ -59,7 +59,7 @@ public class ScreenManage {
 
 			this.run();
 			break;
-			
+
 		case 9:
 			System.out.println("영화관 관리를 마칩니다.");
 			break;
