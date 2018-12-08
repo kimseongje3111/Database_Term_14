@@ -596,18 +596,18 @@ public class DAO {
 
 		if (this.connect()) {
 			try {
-				String sql = "INSERT INTO screeningMovie VALUES (?, ?, ?, ?)";
+				String sql = "INSERT INTO screeningMovie VALUES (?, ?, ?, ?, ?)";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
 				pstmt.setInt(1, sMovie.getScreenMovieId());
 				pstmt.setString(2, sMovie.getScreenDate());
 				pstmt.setString(3, sMovie.getMovieName());
 				pstmt.setString(4, sMovie.getScreenId());
-				pstmt.setString(4, sMovie.getScreenTime());
+				pstmt.setString(5, sMovie.getScreenTime());
 
 				int r = pstmt.executeUpdate();
 
-				if (r > 0) {
+				if (r > 0 && seatMaking(sMovie)) {
 					result = true;
 				}
 				// 데이터베이스 생성 객체 해제
@@ -626,20 +626,24 @@ public class DAO {
 
 	// 15 + 상영 영화 삽입시 해당 상영 영화에 해당하는 상영관의 좌석수를 보고 해당 좌석수 만큼 예약 좌석 튜플을 추가한다.
 	public boolean seatMaking(ScreeningMovie sMovie) {
-		boolean result = false;
+		System.out.println("해당하는 좌석을 만듭니다.");
 		int seatNum = seatNumFromScreen(sMovie.getScreenId());			// 해당 상영관의 좌석 수
-		int count = 0;
+		System.out.println(seatNum);
+		int count = 1;
 		if (this.connect()) {
 			try {
 				for (count = 1 ; count < seatNum + 1; count++) {
+					System.out.println(count);
 					String sql = "INSERT INTO reservedSeat VALUES (?, ?, ?, ?)";
 					PreparedStatement pstmt = conn.prepareStatement(sql);
 
 					pstmt.setInt(1, sMovie.getScreenMovieId());
 					pstmt.setString(2, String.valueOf(count));				// 좌석 번호 = count 번호
-					pstmt.setInt(3, 0);										// default = 0
+					pstmt.setBoolean(3, false);									// default = 0
 					pstmt.setString(4, sMovie.getScreenDate());
 
+					pstmt.executeUpdate();
+					
 					pstmt.close();
 				}
 				this.close();
@@ -647,8 +651,6 @@ public class DAO {
 				System.out.println(e.getMessage());
 			}
 		}
-
-
 		return true;
 	}
 
@@ -1001,10 +1003,9 @@ public class DAO {
 	// 27. 영화 예약 - 예약 좌석 리스트 가져오기
 	public List<ReservedSeat> getSeatList(int id, String date){		// 상영 영화 번호, 상영영화 상영날짜
 		List<ReservedSeat> list = null;
+		String sql = "SELECT * FROM reservedSeat WHERE screenMovieId = " + String.valueOf(id) + " AND onScreenDate = '" + date + "'";
 
-		String sql = "SELECT * FROM reservedSeat WHERE screenMovieId = '"+ String.valueOf(id) +"' onScreenDate = '"+ date +"';";
-
-		if(connect()) {
+		if(this.connect()) {
 			try {
 				stmt = conn.createStatement();
 
@@ -1018,7 +1019,8 @@ public class DAO {
 						seat.setScreenMovieId(rs.getInt("screenMovieId"));
 						seat.setSeat(rs.getString("seat"));
 						seat.setReserveBool(rs.getBoolean("reserveBool"));
-
+						seat.setOnScreenDate(rs.getString("onScreenDate"));
+						
 						list.add(seat);
 					}
 				}
@@ -1155,7 +1157,7 @@ public class DAO {
 
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE reservedSeat SET reserveBool = 1 WHERE screenMovieId = ? seat = ? onScreenDate = ?";
+				String sql = "UPDATE reservedSeat SET reserveBool = 1 WHERE screenMovieId = ? AND seat = ? AND onScreenDate = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setInt(1, screenMovieNum);
