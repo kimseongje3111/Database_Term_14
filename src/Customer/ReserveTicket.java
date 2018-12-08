@@ -159,7 +159,18 @@ public class ReserveTicket {
 		result_ticket = this.finishReservationWithchoossingPay(ticket_list, user);
 		boolean isFinished = true;
 		for (Ticket rt : result_ticket) {
-			boolean r6 = dao.insertTicket(rt); // DAO 영화 예매 : 티켓 삽입
+			int screenMovieNum = 0;
+			
+			for (ScreeningMovie sm : screening_list) {
+				if (sm.getScreenDate().equals(rt.getScreenDate()) &&
+						sm.getMovieName().equals(rt.getMovieName()) &&
+						sm.getScreenId().equals(rt.getTheaterName() + rt.getScreenNum()) &&
+						sm.getScreenTime().equals(rt.getScreenTime())) {
+					screenMovieNum = sm.getScreenMovieId();
+				}
+			}
+			
+			boolean r6 = dao.insertTicket(rt, screenMovieNum); // DAO 영화 예매 : 티켓 삽입
 
 			if (!r6) {
 				isFinished = false;
