@@ -506,15 +506,14 @@ public class DAO {
 		System.out.println(movie);
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE movie SET movieName = ?, director = ?, cast = ? rating = ?, keyInfo = ?  WHERE movieId = ?";
+				String sql = "UPDATE movie SET director = ?, cast = ? rating = ?, keyInfo = ?  WHERE movieName = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
-				pstmt.setString(1, movie.getMovieName());
-				pstmt.setString(2, movie.getDirector());
-				pstmt.setString(3, movie.getCast());
-				pstmt.setString(4, movie.getRating());
-				pstmt.setString(5, movie.getKeyInfo());
-				pstmt.setString(6, movie.getMovieId());
+				pstmt.setString(1, movie.getDirector());
+				pstmt.setString(2, movie.getCast());
+				pstmt.setString(3, movie.getRating());
+				pstmt.setString(4, movie.getKeyInfo());
+				pstmt.setString(5, movie.getMovieName());
 
 				int r = pstmt.executeUpdate();
 
