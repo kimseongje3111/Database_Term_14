@@ -113,10 +113,10 @@ public class ReserveTicket {
 				System.out.println();
 			}
 			if (rs.isReserveBool()) {
-				System.out.print(String.format("%3$[%s] : X", rs.getSeat()));
+				System.out.print(String.format("%3s[%s] : X", " ", rs.getSeat()));
 			} else {
 				availcount++;
-				System.out.print(String.format("%3$[%s] : O", rs.getSeat()));
+				System.out.print(String.format("%3s[%s] : O", " ", rs.getSeat()));
 			}
 			count++;
 		}

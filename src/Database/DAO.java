@@ -477,7 +477,7 @@ public class DAO {
 				pstmt.setString(1, movie.getMovieId());
 				pstmt.setString(2, movie.getMovieName());
 				pstmt.setString(3, movie.getDirector());
-				pstmt.setString(4, movie.getCast());
+				pstmt.setString(4, movie.getCasting());
 				pstmt.setString(5, movie.getRating());
 				pstmt.setString(6, movie.getKeyInfo());
 
@@ -502,15 +502,14 @@ public class DAO {
 	// 11. 영화 정보 업데이트
 	public boolean updateMovieInfo(Movie movie) {
 		boolean result = false;
-
-		System.out.println(movie);
+		
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE movie SET director = ?, cast = ? rating = ?, keyInfo = ?  WHERE movieName = ?";
+				String sql = "UPDATE movie SET director = ?, casting = ?, rating = ?, keyInfo = ?  WHERE movieName = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
 				pstmt.setString(1, movie.getDirector());
-				pstmt.setString(2, movie.getCast());
+				pstmt.setString(2, movie.getCasting());
 				pstmt.setString(3, movie.getRating());
 				pstmt.setString(4, movie.getKeyInfo());
 				pstmt.setString(5, movie.getMovieName());
