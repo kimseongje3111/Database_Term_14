@@ -61,7 +61,8 @@ public class ScreeningMovie implements Serializable{
 	
 	@Override
 	public String toString() {
-		return String.valueOf(this.screenMovieId) + "." + this.movieName + " : " + this.screenDate + "/" + this.screenTime + "/" + this.screenId;
+		return String.valueOf(this.screenMovieId) + "." + this.movieName + " : (상영날짜)" 
+				+ this.screenDate + " / (상영시간)" + this.screenTime + " / (상영관 아이디)" + this.screenId;
 	}
 
 }
