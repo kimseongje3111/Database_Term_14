@@ -70,6 +70,7 @@ public class DAO {
 		}
 	}
 
+	// 0. 유저 리스트 반환
 	public List<User> getUserList() { // select
 		List<User> list = null;
 		String sql = "SELECT * FROM user";
@@ -78,7 +79,6 @@ public class DAO {
 				stmt = conn.createStatement();
 				if (stmt != null) {
 					rs = stmt.executeQuery(sql);
-
 					list = new ArrayList<User>();
 
 					while (rs.next()) {
@@ -106,6 +106,7 @@ public class DAO {
 		return list;
 	}
 
+	// 0. 사용자 회원 가입
 	public boolean InsertUser(User user) {
 		boolean result = false;
 
@@ -141,7 +142,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화관 테이블 아이디 중복 검사
+	// 1. 영화관 테이블 아이디 중복 검사
 	public boolean checkTheaterId(Theater theater) {
 		boolean result = false;
 
@@ -176,7 +177,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화관 정보 삽입
+	// 2. 영화관 정보 삽입
 	public boolean insertTheater(Theater theater) {
 		boolean result = false;
 
@@ -208,7 +209,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화관 정보 업데이트
+	// 3. 영화관 정보 업데이트
 	public boolean updateTheater(Theater theater) {
 		boolean result = false;
 
@@ -240,7 +241,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화관 정보 삭제
+	// 4. 영화관 정보 삭제
 	public boolean deleteTheater(Theater theater) {
 		boolean result = false;
 
@@ -269,7 +270,7 @@ public class DAO {
 		return result;
 	}
 
-	// 상영관 아이디 중복 검사
+	// 5. 상영관 아이디 중복 검사
 	public boolean checkScreenId(Screen screen) {
 		boolean result = false;
 
@@ -301,7 +302,7 @@ public class DAO {
 		return result;
 	}
 
-	// 상영관 정보 삽입
+	// 6. 상영관 정보 삽입
 	public boolean insertScreen(Screen screen) {
 		boolean result = false;
 
@@ -333,7 +334,7 @@ public class DAO {
 		return result;
 	}
 
-	// 상영관 정보 업데이트
+	// 7. 상영관 정보 업데이트
 	public boolean updateScreen(Screen screen) {
 		boolean result = false;
 
@@ -363,7 +364,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화 제목 중복 검사
+	// 8. 영화 제목 중복 검사
 	public boolean checkMovieName(Movie movie) {
 		boolean result = false;
 
@@ -394,7 +395,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화 아이디 중복 검사
+	// 9. 영화 아이디 중복 검사
 	public boolean checkMovieId(Movie movie) {
 		boolean result = false;
 
@@ -425,7 +426,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화 정보 삽입(객체)
+	// 10. 영화 정보 삽입(객체)
 	public boolean insertMovie(Movie movie) {
 		boolean result = false;
 
@@ -459,7 +460,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화 정보 업데이트
+	// 11. 영화 정보 업데이트
 	public boolean updateMovieInfo(Movie movie) {
 		boolean result = false;
 
@@ -494,7 +495,7 @@ public class DAO {
 		return result;
 	}
 
-	// 영화 정보 삭제
+	// 12. 영화 정보 삭제
 	public boolean deleteMovie(Movie movie) {
 		boolean result = false;
 
@@ -523,7 +524,7 @@ public class DAO {
 		return result;
 	}
 
-	// 상영 영화 리스트 가져오기
+	// 13. 상영 영화 리스트 가져오기
 	public List<ScreeningMovie> getScreeningMovieList() {
 		List<ScreeningMovie> list = null;
 		String sql = "SELECT * FROM screeningMovie";
@@ -558,7 +559,7 @@ public class DAO {
 
 	}
 
-	// 상영 영화 번호 중복 검사
+	// 14. 상영 영화 번호 중복 검사
 	public boolean checkScreeningMovieId(ScreeningMovie screeningMovie) {
 		boolean result = false;
 
@@ -589,8 +590,8 @@ public class DAO {
 		return result;
 	}
 
-	// 상영 영화 삽입
-	public boolean insertScreeningMovie(ScreeningMovie sMovie) {
+	// 15. 상영 영화 삽입
+	public boolean insertScreeningMovie(ScreeningMovie sMovie) {	// sMovie에 예약좌석 생성
 		boolean result = false;
 
 		if (this.connect()) {
@@ -622,7 +623,66 @@ public class DAO {
 		return result;
 	}
 
-	// 상영 영화 삭제
+
+	// 15 + 상영 영화 삽입시 해당 상영 영화에 해당하는 상영관의 좌석수를 보고 해당 좌석수 만큼 예약 좌석 튜플을 추가한다.
+	public boolean seatMaking(ScreeningMovie sMovie) {
+		boolean result = false;
+		int seatNum = seatNumFromScreen(sMovie.getScreenId());			// 해당 상영관의 좌석 수
+		int count = 0;
+		if (this.connect()) {
+			try {
+				for (int i = 0 ; i < count; i++) {
+					String sql = "INSERT INTO reservedSeat VALUES (?, ?, ?, ?)";
+					PreparedStatement pstmt = conn.prepareStatement(sql);
+
+					pstmt.setInt(1, sMovie.getScreenMovieId());
+					pstmt.setString(2, String.valueOf(count));				// 좌석 번호 = count 번호
+					pstmt.setInt(3, 0);										// default = 0
+					pstmt.setString(4, sMovie.getScreenDate());
+
+					count++;
+					pstmt.close();
+				}
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+
+
+		return true;
+	}
+
+	// 15 + + 상영관 보고 좌석수 반환 함수
+	public int seatNumFromScreen(String screenid) {	// 상영관 id를 입력받음,  return : 좌석수
+		int result = 0;
+
+		if (this.connect()) {
+			try {
+				String sql = "SELECT availSeat FROM screen WHERE screenid = '" + screenid + "';";
+
+
+				stmt = conn.createStatement();
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+					rs.next();
+					result = rs.getInt(1);
+				}
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+	}
+
+
+
+
+	// 16. 상영 영화 삭제
 	public boolean deleteScreeningMovie(ScreeningMovie screeningMovie) {
 		boolean result = false;
 
@@ -722,11 +782,18 @@ public class DAO {
 	public boolean ticketing(User user, Boolean T, int point) {
 
 		String uid = user.getUserId();
-		
+
+		String sql = "";
 		boolean result = false;
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE user SET point = point - "+ String.valueOf(point) +", ticketPurchaseNum = ticketPurchaseNum + 1 WHERE userId = ?";
+				if(T) {	// T면 포인트 사용 + 100 안함
+					sql = "UPDATE user SET point = point - "+ String.valueOf(point) +", ticketPurchaseNum = ticketPurchaseNum + 1 WHERE userId = ?";
+				}else {	// T가 FALSE면 포인트 사용 X + 100
+					sql = "UPDATE user SET point = point + 100, ticketPurchaseNum = ticketPurchaseNum + 1 WHERE userId = ?";
+				}
+				
+				
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
 				pstmt.setString(1, uid);
@@ -754,9 +821,9 @@ public class DAO {
 	public boolean OnSitePayment(Ticket ticket) {
 
 		String uid = ticket.getUserId();
-		
+
 		boolean result = false;
-		
+
 		if (this.connect()) {
 			try {
 				String sql = "UPDATE ticket SET paymentBool = 1 WHERE userId = '"+ uid +"';";
@@ -780,23 +847,23 @@ public class DAO {
 		return result;
 	}
 
-	
-	
+
+
 	// 22. VIP 관리
 	public List<String> getVipList(String period){
 		List<String> list = null;
 		String temp[] = period.split("~");
 		int start = Integer.parseInt(temp[0]);			// ex) 20181208
 		int end = Integer.parseInt(temp[1]);
-		
+
 		//String sql = "SELECT userId from ticket WHERE "
-		
-		
+
+
 		if(this.connect()) {
 			String sql = "SELECT userId FROM ticket WHERE ";
 
 			// SELECT userId FROM (SELECT * FROM ticket WHERE screenDate BETWEEN start AND end) as a GROUP BY userId ORDER BY 2 DESC LIMIT 10;
-			
+
 			try {
 				stmt = conn.createStatement();
 
@@ -809,16 +876,203 @@ public class DAO {
 			} catch(SQLException e) {
 				System.out.println(e.getMessage());
 			}
-
 		}
+		return list;
+	}
+	/**관리자용 함수 끝**/
+
+
+
+
+
+
+
+
+
+	/**유저용 함수 시작**/
+
+
+	// 23. 회원 정보 수정 - 해당 회원 정보 출력
+	public User printUserInfo(User user) {
+		User u = new User();
+
+		String userid = user.getUserId();
+		if(this.connect()) {
+			try {
+				String sql = "SELECT * FROM user WHERE userId = '"+ userid +"';";
+				stmt = conn.createStatement();
+				
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+					rs.next();
+					u.setUserId(rs.getString("userId"));
+					u.setPwd(rs.getString("pwd"));
+					u.setName(rs.getString("name"));
+					u.setBirth(rs.getString("birth"));
+					u.setAddr(rs.getString("addr"));
+					u.setPhoneNum(rs.getString("phoneNum"));
+					u.setPoint(rs.getInt("point"));
+					u.setTicketPurchaseNum(rs.getInt("ticketPurchaseNum"));
+				}
+				
+			} catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패했습니다.");
+			System.exit(0);
+		}
+		return u;
+	}
+	
+	
+	// 24. 회원 정보 수정 - 수정된 정보 업데이트 (User 객체 / id, 포인트, 구매횟수 x)
+	public boolean editUserInfo(User user) {
+		boolean result = false;
+		String userid = user.getUserId();
+		if (this.connect()) {
+			try {
+				String sql = "UPDATE user SET pwd = ? name = ? birth = ? addr = ? phoneNum = ? WHERE userId = '" + userid +"';";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, user.getPwd());
+				pstmt.setString(2, user.getName());
+				pstmt.setString(3, user.getBirth());
+				pstmt.setString(4, user.getAddr());
+				pstmt.setString(5, user.getPhoneNum());
+				
+				int r = pstmt.executeUpdate();
+				if(r > 0) {
+					result = true;
+				}
+				
+				pstmt.close();
+				this.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패했습니다.");
+			System.exit(0);
+		}
+		return result;
+	}
+	
+	
+	// 25. 회원 탈퇴 - 정보 삭제 (User 객체)
+	public boolean deleteUser(User user) {
+		boolean result = false;
+		//String userid = user.getUserId();
 		
-		
-		
+		if (this.connect()) {
+			try {
+				String sql = "DELETE FROM user WHERE userId = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				pstmt.setString(1, user.getUserId());
+
+				int r = pstmt.executeUpdate();
+
+				if (r > 0) {
+					result = true;
+				}
+				// 데이터베이스 생성 객체 해제
+				pstmt.close();
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+	}
+	
+	
+	// 26. 영화 차트 출력
+	public List<String> printMovieRating(){
+		List<String> list = new ArrayList<String>();
 		
 		return list;
 	}
 	
+	// 27. 영화 예약 - 예약 좌석 리스트 가져오기
+	public List<ReservedSeat> getSeatList(String id, String date){
+		List<ReservedSeat> list = new ArrayList<ReservedSeat>();
+		
+		String sql = "SELECT * FROM reservedSeat WHERE screenMovieId = '"+ id +"' onScreenDate = '"+ date +"';";
+		
+		if(connect()) {
+			try {
+				stmt = conn.createStatement();
+				
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+					
+					while(rs.next()) {
+						ReservedSeat seat = new ReservedSeat();
+						seat.setScreenMovieId(rs.getInt("screenMovieId"));
+						seat.setSeat(rs.getString("seat"));
+						seat.setReserveBool(rs.getBoolean("reserveBool"));
+						
+						list.add(seat);
+					}
+				}
+				
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}else {
+			System.out.println("데이터베이스 연결에 실패하였습니다.");
+			System.exit(0);
+		}
+		return list;
+	}
 	
+	// 28. 영화 예약 - 티켓 삽입 (Ticket 객체)
+	public boolean insertTicket(Ticket ticket) {
+		boolean result = false;
+
+		if (this.connect()) {
+			try {
+				String sql = "INSERT INTO ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				pstmt.setString(1, ticket.getTicketId());
+				pstmt.setString(2, ticket.getMovieName());
+				pstmt.setString(3, ticket.getTheaterName());
+				pstmt.setString(4, ticket.getScreenNum());
+				pstmt.setString(5, ticket.getScreenDate());
+				pstmt.setString(6, ticket.getScreenTime());
+				pstmt.setString(7, ticket.getSeatNum());
+				pstmt.setString(8, ticket.getUserId());
+				pstmt.setBoolean(9, ticket.isPaymentBool());
+				pstmt.setInt(10, ticket.);
+				int r = pstmt.executeUpdate();
+
+				if (r > 0) {
+					result = true;
+				}
+				// 데이터베이스 생성 객체 해제
+				pstmt.close();
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+	}
+	// 29. 영화 예약 확인 - 예매자 티켓 출력
 	
+	// 30. 예약 취소 - 예매자 티켓 삭제
+	
+	//
+
+
+
+
 
 }
