@@ -524,7 +524,7 @@ public class DAO {
 	}
 
 	// 상영 영화 리스트 가져오기
-	public List<ScreeningMovie> getScreeningMovieList(ScreeningMovie screeningMovie) {
+	public List<ScreeningMovie> getScreeningMovieList() {
 		List<ScreeningMovie> list = null;
 		String sql = "SELECT * FROM screeningMovie";
 		if (connect()) {
