@@ -106,7 +106,9 @@ public class Ticket implements Serializable{
 
 	@Override
 	public String toString() {
-		return null;
+		return "[" + this.ticketId + "] " + this.movieName + "/" + this.theaterName + "/" + this.screenNum
+				+ "/" + this.screenDate + "/" + this.screenTime + "/" + this.seatNum + "/" + this.userId
+				+ "/" + this.isPaymentBool() + "/" + this.usedPoint;
 	}
 
 }

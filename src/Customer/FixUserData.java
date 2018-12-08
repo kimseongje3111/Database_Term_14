@@ -11,7 +11,7 @@ public class FixUserData {
 	DAO dao = DAO.sharedInstance();
 
 	public void run(User user) {
-		User c_user = null; // DAO 회원 정보 수정 : 회원 정보 가져오기
+		User c_user = dao.printUserInfo(user); // DAO 회원 정보 수정 : 회원 정보 가져오기
 		System.out.println(c_user);
 		System.out.println();
 
@@ -28,7 +28,7 @@ public class FixUserData {
 		c_user.setAddr(newAddr);
 		c_user.setPhoneNum(newPhone);
 
-		boolean r = true; // DAO 회원 정보 수정 : 정보 업데이트
+		boolean r = dao.editUserInfo(c_user); // DAO 회원 정보 수정 : 정보 업데이트
 
 		if (r) {
 			System.out.println("회원 정보가 변경되었습니다.");
