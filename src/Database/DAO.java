@@ -70,6 +70,45 @@ public class DAO {
 		}
 	}
 
+	
+	// login check
+	public boolean checkLogin(User user) {
+		boolean result = false;
+
+		String uid = user.getUserId();
+		String upwd = user.getPwd();
+		
+		String sql = "SELECT count(*) FROM user WHERE userId = '" + uid + "' AND pwd = '"+ upwd + "';";
+		int count = 0;
+		if (this.connect()) {
+			try {
+				stmt = conn.createStatement();
+
+				if (stmt != null) {
+					rs = stmt.executeQuery(sql);
+
+					rs.next();
+					count = rs.getInt(1);
+				}
+
+				if (count >= 1) {
+					result = true;
+				}
+				// 데이터베이스 생성 객체 해제
+				this.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패");
+			System.exit(0);
+		}
+		return result;
+		
+		
+	}
+	
+	
 	// 0. 유저 리스트 반환
 	public List<User> getUserList() { // select
 		List<User> list = null;
