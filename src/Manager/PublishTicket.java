@@ -53,6 +53,9 @@ public class PublishTicket {
 
 		if (user_point < 1000) {
 			System.out.println("포인트는 1000점 이상부터 사용 가능합니다.");
+			dao.ticketing(user, false, 0); // DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
+
+			System.out.println("포인트를 사용하지 않았습니다. 포인트 100점을 적립합니다.");
 			System.out.println("결제가 완료되었습니다. 티켓을 발행합니다.");
 		} else {
 			if (point_use == 0) {
@@ -67,13 +70,14 @@ public class PublishTicket {
 			} else {
 
 				dao.ticketing(user, true, point_use); // DAO 티켓 발권 : 포인트 사용, 사용자의 가용 포인트 감소, 티켓 구매 횟수 증가
-
+				ticket.setUsedPoint(point_use);
+				
 				System.out.println("포인트 " + point_use + "점을 사용하였습니다.");
 				System.out.println("결제가 완료되었습니다. 티켓을 발행합니다.");
 			}
 		}
 
-		dao.OnSitePayment(ticket); // DAO 티켓 발권 : 해당 티켓의 결제 유무 True
+		dao.OnSitePayment(ticket); // DAO 티켓 발권 : 해당 티켓의 결제 유무 True, 사용 포인트 적용
 
 	}
 
