@@ -160,7 +160,7 @@ public class DAO {
 				pstmt.setString(4, user.getBirth());
 				pstmt.setString(5, user.getAddr());
 				pstmt.setString(6, user.getPhoneNum());
-				pstmt.setInt(7, 0);
+				pstmt.setInt(7, 1000);
 				pstmt.setInt(8, 0);
 
 				int r = pstmt.executeUpdate();
@@ -796,7 +796,7 @@ public class DAO {
 		int point = 0;
 		String uid = user.getUserId();
 		if(this.connect()) {
-			String sql = "SELECT usedPoint FROM user WHERE userId = '" + uid + "';";
+			String sql = "SELECT point FROM user WHERE userId = '" + uid + "';";
 
 			try {
 				stmt = conn.createStatement();
@@ -1073,7 +1073,7 @@ public class DAO {
 	}
 
 	// 28. 영화 예약 - 티켓 삽입 (Ticket 객체)
-	public boolean insertTicket(Ticket ticket) {
+	public boolean insertTicket(Ticket ticket, int screenMovieNum) {
 		boolean result = false;
 
 		if (this.connect()) {
@@ -1093,7 +1093,7 @@ public class DAO {
 				pstmt.setInt(10, ticket.getUsedPoint());
 
 				int r = pstmt.executeUpdate();
-				if (r > 0) {
+				if (r > 0 && setReservedSeat(ticket, screenMovieNum)) {
 					result = true;
 				}
 				// 데이터베이스 생성 객체 해제
@@ -1110,6 +1110,41 @@ public class DAO {
 	}
 
 
+
+	// 30 +. 티켓 삭제시 해당 예약 좌석 예약 유무 초기화
+	public boolean setReservedSeat(Ticket ticket, int screenMovieNum) {
+		boolean result = false;
+
+		if (this.connect()) {
+			try {
+				String sql = "UPDATE reservedSeat SET reserveBool = 1 WHERE screenMovieId = ? AND seat = ? AND onScreenDate = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, screenMovieNum);
+				pstmt.setString(2, ticket.getSeatNum());
+				pstmt.setString(3, ticket.getScreenDate());
+
+				int r = pstmt.executeUpdate();
+				if(r > 0) {
+					result = true;
+				}
+
+				pstmt.close();
+				this.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패했습니다.");
+			System.exit(0);
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
 	// 29. 영화 예약 확인 - 예매자 티켓 출력
 	public List<Ticket> printAllTicket(User user){
 		List<Ticket> list = null;
@@ -1194,7 +1229,7 @@ public class DAO {
 
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE reservedSeat SET reserveBool = 1 WHERE screenMovieId = ? AND seat = ? AND onScreenDate = ?";
+				String sql = "UPDATE reservedSeat SET reserveBool = 0 WHERE screenMovieId = ? AND seat = ? AND onScreenDate = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setInt(1, screenMovieNum);
