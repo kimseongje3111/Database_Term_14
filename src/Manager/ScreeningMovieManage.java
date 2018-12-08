@@ -39,7 +39,7 @@ public class ScreeningMovieManage {
 			break;
 
 		case 2: // 상영 영화 삭제
-			deleteThisMovie = this.inputInt("삭제할 상영 영화 번호 : ");
+			deleteThisMovie = this.inputInt("삭제할 상영 영화 번호 (ex.1) : ");
 			screeningmovie.setScreenMovieId(deleteThisMovie);
 
 			boolean r = dao.checkScreeningMovieId(screeningmovie); // DAO 상영 영화 : 번호 중복 검사
@@ -64,16 +64,16 @@ public class ScreeningMovieManage {
 	}
 
 	private void addScreeningMovie() {
-		screenMovieId = this.inputInt("등록할 상영 영화 번호 : ");
+		screenMovieId = this.inputInt("등록할 상영 영화 번호 (ex.1) : ");
 		screeningmovie.setScreenMovieId(screenMovieId);
 
 		boolean b1 = dao.checkScreeningMovieId(screeningmovie); // DAO 상영 영화 : 번호 중복 검사
 
 		if (!b1) {
-			screenDate = this.inputString("상영 날짜 : ");
-			movieName = this.inputString("상영할 영화 제목 : ");
-			screenId = this.inputString("상영할 상영관 아이디 : ");
-			screenTime = this.inputString("상영 시간 : ");
+			screenDate = this.inputString("상영 날짜 (ex.20181212) : ");
+			movieName = this.inputString("상영할 영화 제목 (ex.ironman) : ");
+			screenId = this.inputString("상영할 상영관 아이디 (ex.daejoen_cgv1) : ");
+			screenTime = this.inputString("상영 시간 (ex.1315) : ");
 			screeningmovie.setScreenDate(screenDate);
 			screeningmovie.setMovieName(movieName);
 			screeningmovie.setScreenId(screenId);

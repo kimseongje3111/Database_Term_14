@@ -16,7 +16,7 @@ public class PublishTicket {
 	User user = new User();
 
 	public void run() {
-		userId = this.inputString("발권할 고객의 아이디 : ");
+		userId = this.inputString("발권할 고객의 아이디 (ex.root) : ");
 		user.setUserId(userId);
 
 		List<Ticket> ticket_list = dao.getTicketList(user); // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)

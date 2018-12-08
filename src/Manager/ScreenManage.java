@@ -34,14 +34,14 @@ public class ScreenManage {
 			break;
 
 		case 2: // 상영관 정보 수정
-			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
+			theaterIdToFix = this.inputString("수정할 영화관 아이디 (ex.daejeon_cgv) : ");
 			screen.setTheaterId(theaterIdToFix);
 			theater.setTheaterId(theaterId);
 
 			boolean r1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 중복 검사
 
 			if (r1) {
-				fixThisScreen = this.inputString("수정할 상영관 번호 : ");
+				fixThisScreen = this.inputString("수정할 상영관 번호 (ex.1) : ");
 				screenId = theaterIdToFix + fixThisScreen;
 				screen.setScreenId(screenId);
 
@@ -70,15 +70,15 @@ public class ScreenManage {
 	}
 
 	private void addScreen() {
-		theaterId = this.inputString("상영관을 등록할 영화관 아이디 : ");
+		theaterId = this.inputString("상영관을 등록할 영화관 아이디 (ex.daejeon_cgv) : ");
 		screen.setTheaterId(theaterId);
 		theater.setTheaterId(theaterId);
 
 		boolean b1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 아이디 중복 검사
 
 		if (b1) {
-			screenNum = this.inputString("등록할 상영관 번호 : ");
-			availSeat = this.inputInt("상영관의 최대 좌석 수 : ");
+			screenNum = this.inputString("등록할 상영관 번호 (ex.1) : ");
+			availSeat = this.inputInt("상영관의 최대 좌석 수 (ex.30) : ");
 			screenId = theaterId + screenNum;
 			screen.setScreenId(screenId);
 			screen.setTheaterId(theaterId);

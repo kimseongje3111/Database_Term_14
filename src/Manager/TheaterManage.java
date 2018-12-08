@@ -31,7 +31,7 @@ public class TheaterManage {
 			break;
 
 		case 2: // 영화관 정보 수정
-			theaterIdToFix = this.inputString("수정할 영화관 아이디 : ");
+			theaterIdToFix = this.inputString("수정할 영화관 아이디 (ex.daejeon_cgv) : ");
 			theater.setTheaterId(theaterIdToFix);
 
 			boolean r1 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
@@ -47,7 +47,7 @@ public class TheaterManage {
 			break;
 
 		case 3: // 영화관 삭제
-			deleteThisTheater = this.inputString("삭제할 영화관 아이디 : ");
+			deleteThisTheater = this.inputString("삭제할 영화관 아이디 (ex.daejeon_cgv) : ");
 			theater.setTheaterId(deleteThisTheater);
 
 			boolean r2 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
@@ -69,10 +69,11 @@ public class TheaterManage {
 		default:
 			this.run();
 		}
+		
 	}
 
 	private void addTheater() {
-		theaterId = this.inputString("영화관 아이디 : ");
+		theaterId = this.inputString("영화관 아이디 (ex.daejeon_cgv): ");
 		theater.setTheaterId(theaterId);
 
 		boolean b1 = dao.checkTheaterId(theater); // DAO 영화관 : 아이디 중복 검사
@@ -80,7 +81,7 @@ public class TheaterManage {
 		if (!b1) {
 			theaterAddr = this.inputString("영화관 주소 : ");
 			theaterTel = this.inputString("영화관 전화번호 : ");
-			screenNum = this.inputInt("영화관의 (최대)상영관 수 : ");
+			screenNum = this.inputInt("영화관의 (최대)상영관 수 (ex.5) : ");
 			theater.setTheaterAddr(theaterAddr);
 			theater.setTheaterTel(theaterTel);
 			theater.setScreenNum(screenNum);
