@@ -821,11 +821,13 @@ public class DAO {
 
 		String uid = ticket.getUserId();
 
+		int point = ticket.getUsedPoint();
+		
 		boolean result = false;
 
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE ticket SET paymentBool = 1 WHERE userId = '"+ uid +"';";
+				String sql = "UPDATE ticket SET paymentBool = 1 usedPoint = " + String.valueOf(point) + " WHERE userId = '"+ uid +"';";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
 				int r = pstmt.executeUpdate();
@@ -1115,9 +1117,10 @@ public class DAO {
 
 	// 30. 예약 취소 - 예매자 티켓 삭제
 
-	public boolean deleteTicket(Ticket ticket) {
+	public boolean deleteTicket(Ticket ticket, int screenMovieNum) {
 		boolean result = false;
 
+		
 		if (this.connect()) {
 			try {
 				String sql = "DELETE FROM ticket WHERE ticketId = ?";
@@ -1127,7 +1130,9 @@ public class DAO {
 
 				int r = pstmt.executeUpdate();
 
-				if (r > 0) {
+				boolean x = resetReservedSeat(ticket, screenMovieNum);
+				
+				if (r > 0 && x) {
 					result = true;
 				}
 				// 데이터베이스 생성 객체 해제
@@ -1142,5 +1147,36 @@ public class DAO {
 		}
 		return result;
 	}
+	
+	
+	// 30 +. 티켓 삭제시 해당 예약 좌석 예약 유무 초기화
+	public boolean resetReservedSeat(Ticket ticket, int screenMovieNum) {
+		boolean result = false;
 
+		if (this.connect()) {
+			try {
+				String sql = "UPDATE reservedSeat SET reserveBool = 1 WHERE screenMovieId = ? seat = ? onScreenDate = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, screenMovieNum);
+				pstmt.setString(2, ticket.getSeatNum());
+				pstmt.setString(3, ticket.getScreenDate());
+
+				int r = pstmt.executeUpdate();
+				if(r > 0) {
+					result = true;
+				}
+
+				pstmt.close();
+				this.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패했습니다.");
+			System.exit(0);
+		}
+		return result;
+	}
+	
 }
