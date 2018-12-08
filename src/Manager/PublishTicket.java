@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import Database.DAO;
 import Database.Ticket;
+import Database.User;
 
 public class PublishTicket {
 
@@ -12,11 +13,13 @@ public class PublishTicket {
 	String userId;
 
 	DAO dao = DAO.sharedInstance();
+	User user = new User();
 
 	public void run() {
 		userId = this.inputString("발권할 고객의 아이디 : ");
+		user.setUserId(userId);
 
-		List<Ticket> ticket_list = null; // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)
+		List<Ticket> ticket_list = dao.getTicketList(user); // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)
 		
 		System.out.println("<<<<<<<<<<<<<<<<<<<< 예매자 티켓 목록 >>>>>>>>>>>>>>>>>>>>");
 		for(Ticket ticket : ticket_list) {
@@ -43,7 +46,7 @@ public class PublishTicket {
 	}
 
 	private void fieldPay(Ticket ticket) {
-		int user_point = 2000; // DAO 티켓 발권 : 예매자의 가용 포인트 가져오기
+		int user_point = dao.getUsedPoint(user); // DAO 티켓 발권 : 예매자의 가용 포인트 가져오기
 		System.out.println("현재 사용자의 가용 포인트 : " + user_point + " P");
 
 		int point_use = this.inputInt("사용할 포인트 : ");
@@ -54,7 +57,7 @@ public class PublishTicket {
 		} else {
 			if (point_use == 0) {
 
-				// DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
+				dao.ticketing(user, false, 0); // DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
 
 				System.out.println("포인트를 사용하지 않았습니다. 포인트 100점을 적립합니다.");
 				System.out.println("결제가 완료되었습니다. 티켓을 발행합니다.");
@@ -63,14 +66,14 @@ public class PublishTicket {
 				this.fieldPay(ticket);
 			} else {
 
-				// DAO 티켓 발권 : 포인트 사용, 사용자의 가용 포인트 감소, 티켓 구매 횟수 증가
+				dao.ticketing(user, true, point_use); // DAO 티켓 발권 : 포인트 사용, 사용자의 가용 포인트 감소, 티켓 구매 횟수 증가
 
 				System.out.println("포인트 " + point_use + "점을 사용하였습니다.");
 				System.out.println("결제가 완료되었습니다. 티켓을 발행합니다.");
 			}
 		}
 
-		// DAO 티켓 발권 : 해당 티켓의 결제 유무 True
+		dao.OnSitePayment(ticket); // DAO 티켓 발권 : 해당 티켓의 결제 유무 True
 
 	}
 
