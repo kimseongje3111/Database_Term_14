@@ -21,7 +21,7 @@ public class ScreeningMovieManage {
 
 	public void run() {
 		System.out.println("<<<<<<<<<<<<<<<<<<<< 상영 영화 목록 >>>>>>>>>>>>>>>>>>>>");
-		List<ScreeningMovie> screening_list = null; // DAO 상영 영화 : 상영 영화 목록 가져오기
+		List<ScreeningMovie> screening_list = dao.getScreeningMovieList(); // DAO 상영 영화 : 상영 영화 목록 가져오기
 		for(ScreeningMovie sm : screening_list) {
 			System.out.println(sm);
 		}
