@@ -20,9 +20,9 @@ public class PublishTicket {
 		user.setUserId(userId);
 
 		List<Ticket> ticket_list = dao.getTicketList(user); // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)
-		
+
 		System.out.println("<<<<<<<<<<<<<<<<<<<< 예매자 티켓 목록 >>>>>>>>>>>>>>>>>>>>");
-		for(Ticket ticket : ticket_list) {
+		for (Ticket ticket : ticket_list) {
 			System.out.println(ticket);
 		}
 		System.out.println();

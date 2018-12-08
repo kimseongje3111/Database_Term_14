@@ -22,11 +22,11 @@ public class ScreeningMovieManage {
 	public void run() {
 		System.out.println("<<<<<<<<<<<<<<<<<<<< 상영 영화 목록 >>>>>>>>>>>>>>>>>>>>");
 		List<ScreeningMovie> screening_list = dao.getScreeningMovieList(); // DAO 상영 영화 : 상영 영화 목록 가져오기
-		for(ScreeningMovie sm : screening_list) {
+		for (ScreeningMovie sm : screening_list) {
 			System.out.println(sm);
 		}
 		System.out.println();
-		
+
 		System.out.println("실행할 업무를 선택하세요.");
 		int chooseWork = this.inputInt("1.상영 영화 등록  2.상영 영화 삭제  9.다른 업무 보기  ");
 

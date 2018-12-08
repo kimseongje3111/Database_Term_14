@@ -110,20 +110,20 @@ public class MovieManage {
 		String newcast = this.inputString("새로운 영화 출연진 : ");
 		String newrating = this.inputString("새로운 영화 등급 : ");
 		String newkeyInfo = this.inputString("새로운 영화 주요 정보 : ");
-		
+
 		movie.setDirector(newdirector);
 		movie.setCast(newcast);
 		movie.setRating(newrating);
 		movie.setKeyInfo(newkeyInfo);
-		
+
 		boolean b = dao.updateMovieInfo(movie);
-		
+
 		if (b) {
 			System.out.println("영화 정보가 변경되었습니다.");
 		} else {
 			System.out.println("영화 정보 변경을 실패하였습니다.");
 		}
-	
+
 	}
 
 	private void deleteMovie() {

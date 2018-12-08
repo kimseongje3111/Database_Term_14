@@ -2,35 +2,42 @@ package Customer;
 
 import java.util.Scanner;
 
+import Database.User;
+
 public class ReserveTicket {
+	
 	Scanner scan = new Scanner(System.in);
-	String movieName, theaterName, screenDate, screenTime;
-	public void run() {
+	private String movieName;
+	private String theaterName;
+	private String screenDate;
+	private String screenTime;
+	
+	public void run(User user) {
 		// 영화 예매 진행
 		// 영화 제목 리스트를 보여줌
 		movieName = this.inputString("영화 제목을 입력하시오. : ");
 		// 이름이 존재 안함
 		if (movieName.equals("이름이 없네")) {
 			System.out.println("잘 못된 입력입니다.");
-			run();
+			run(user);
 		}
 		// 영화관 리스트도 보여줌
 		theaterName = this.inputString("영화관을 고르세요. : ");
 		if (theaterName.equals("영화관이 없네")) {
 			System.out.println("잘 못된 입력입니다.");
-			run();
+			run(user);
 		}
 		// 해당 영화의 영화관의 상영날짜 리스트를 모두 보여줌
 		screenDate = this.inputString("상영날짜를 택하세요.");
 		if (screenDate.equals("상영날짜가 없네")) {
 			System.out.println("잘 못된 입력입니다.");
-			run();
+			run(user);
 		}
 		// 해당 영화의 영화관의 상영날짜의 상영시간 리스트를 모두 보여줌
 		screenTime = this.inputString("상영시간을 입력하세요. : ");
 		if (screenTime.equals("상영시간이 없네")) {
 			System.out.println("잘 못된 입력입니다.");
-			run();
+			run(user);
 		}
 		// 앞에 입력받은 정보를 가지고 예약 좌석에서 해당 상여관의 예매좌석과 예약유무를 (좌석수만큼) 모두 출력
 		// <예약이 가능한 좌석 수를 출력>
