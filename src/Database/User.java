@@ -88,6 +88,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return null;
+		String format = "비밀번호 : %s / 이름 : %s / 생년월일 : %s / 주소 : %s / 전화번호 : %s / 포인트 : %s / 티켓 구매 횟수 : %s";
+		return String.format(format, this.pwd, this.name, this.birth, this.addr, this.phoneNum, this.point,
+				this.ticketPurchaseNum);
 	}
 }

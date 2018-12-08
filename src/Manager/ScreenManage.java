@@ -27,21 +27,21 @@ public class ScreenManage {
 
 		switch (chooseWork) {
 		case 1: // 상영관 등록
-			System.out.println("상영관을 등록합니다.");
+			System.out.println("> 상영관을 등록합니다.");
 			this.addScreen();
 			System.out.println();
 			this.run();
 			break;
 
 		case 2: // 상영관 정보 수정
-			theaterIdToFix = this.inputString("수정할 영화관 아이디 (ex.daejeon_cgv) : ");
+			theaterIdToFix = this.inputString("> 수정할 영화관 아이디 (ex.daejeon_cgv) : ");
 			screen.setTheaterId(theaterIdToFix);
 			theater.setTheaterId(theaterId);
 
 			boolean r1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 중복 검사
 
 			if (r1) {
-				fixThisScreen = this.inputString("수정할 상영관 번호 (ex.1) : ");
+				fixThisScreen = this.inputString("> 수정할 상영관 번호 (ex.1) : ");
 				screenId = theaterIdToFix + fixThisScreen;
 				screen.setScreenId(screenId);
 
@@ -51,17 +51,17 @@ public class ScreenManage {
 					this.fixScreenInfo();
 					System.out.println();
 				} else {
-					System.out.println("일치하는 상영관이 없습니다.");
+					System.out.println("> 일치하는 상영관이 없습니다.");
 				}
 			} else {
-				System.out.println("일치하는 영화관이 없습니다.");
+				System.out.println("> 일치하는 영화관이 없습니다.");
 			}
 
 			this.run();
 			break;
 
 		case 9:
-			System.out.println("영화관 관리를 마칩니다.");
+			System.out.println("> 영화관 관리를 마칩니다.");
 			break;
 
 		default:
@@ -70,15 +70,15 @@ public class ScreenManage {
 	}
 
 	private void addScreen() {
-		theaterId = this.inputString("상영관을 등록할 영화관 아이디 (ex.daejeon_cgv) : ");
+		theaterId = this.inputString("> 상영관을 등록할 영화관 아이디 (ex.daejeon_cgv) : ");
 		screen.setTheaterId(theaterId);
 		theater.setTheaterId(theaterId);
 
 		boolean b1 = dao.checkTheaterId(theater); // DAO 상영관 : 영화관 아이디 중복 검사
 
 		if (b1) {
-			screenNum = this.inputString("등록할 상영관 번호 (ex.1) : ");
-			availSeat = this.inputInt("상영관의 최대 좌석 수 (ex.30) : ");
+			screenNum = this.inputString("> 등록할 상영관 번호 (ex.1) : ");
+			availSeat = this.inputInt("> 상영관의 최대 좌석 수 (ex.30) : ");
 			screenId = theaterId + screenNum;
 			screen.setScreenId(screenId);
 			screen.setTheaterId(theaterId);
@@ -92,30 +92,30 @@ public class ScreenManage {
 				boolean b3 = dao.insertScreen(screen); // DAO 상영관 : 등록 (해당 영화관의 최대 상영관 수 확인)
 
 				if (b3) {
-					System.out.println("상영관이 등록되었습니다.");
+					System.out.println("> 상영관이 등록되었습니다.");
 				} else {
-					System.out.println("상영관 등록을 실패하였습니다.");
+					System.out.println("> 상영관 등록을 실패하였습니다.");
 				}
 			} else {
-				System.out.println("이미 존재하는 상영관입니다.");
+				System.out.println("> 이미 존재하는 상영관입니다.");
 			}
 		} else {
-			System.out.println("일치하는 영화관이 없습니다.");
+			System.out.println("> 일치하는 영화관이 없습니다.");
 		}
 
 	}
 
 	private void fixScreenInfo() {
-		System.out.println("변경할 정보를 입력하세요.");
-		int newAvailSeat = this.inputInt("새로운 상영관 좌석 수 : ");
+		System.out.println("> 변경할 정보를 입력하세요.");
+		int newAvailSeat = this.inputInt("> 새로운 상영관 좌석 수 : ");
 		screen.setAvailSeat(newAvailSeat);
 
 		boolean b = dao.updateScreen(screen); // DAO 상영관 : 정보 업데이트
 
 		if (b) {
-			System.out.println("상영관 좌석 수가 변경되었습니다.");
+			System.out.println("> 상영관 좌석 수가 변경되었습니다.");
 		} else {
-			System.out.println("상영관 좌석 수 변경을 실패하였습니다.");
+			System.out.println("> 상영관 좌석 수 변경을 실패하였습니다.");
 		}
 
 	}

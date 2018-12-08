@@ -14,7 +14,9 @@ public class ShowReservation {
 
 	public void run(User user) {
 		// 나의 예약 현황을 보여줌
-		System.out.println("<<<<<<<<<<<<<<<<<<<< 예매 현황 >>>>>>>>>>>>>>>>>>>>");
+		System.out.println("------------------------------------- 예매 현황 -------------------------------------");
+		System.out.println("[티켓번호] 영화 / 영화관 / 상영관 번호 / 상영 날짜 / 상영 시간 / 좌석 번호 / 예매자 / 결제 유무 / 사용 포인트");
+
 		List<Ticket> my_ticket = dao.getTicketList(user);
 		int count = 1;
 		for (Ticket t : my_ticket) {
@@ -23,6 +25,7 @@ public class ShowReservation {
 		}
 		System.out.println();
 
+		System.out.println("실행할 업무를 선택하세요.");
 		int chooseWork = this.inputInt("1.예매 취소   9.뒤로가기  ");
 
 		switch (chooseWork) {
@@ -33,7 +36,7 @@ public class ShowReservation {
 			break;
 
 		case 9: // 뒤로 가기
-			System.out.println("영화 예약 관리를 종료합니다.");
+			System.out.println("> 영화 예약 관리를 종료합니다.");
 			break;
 
 		default:

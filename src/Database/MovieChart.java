@@ -2,7 +2,7 @@ package Database;
 
 import java.io.Serializable;
 
-public class MovieChart implements Serializable{
+public class MovieChart implements Serializable {
 
 	private String movieName;
 	private int ticketingRate;
@@ -31,7 +31,7 @@ public class MovieChart implements Serializable{
 	public void setTicketingRate(int ticketingRate) {
 		this.ticketingRate = ticketingRate;
 	}
-	
+
 	@Override
 	public String toString() {
 		return null;

@@ -2,7 +2,7 @@ package Database;
 
 import java.io.Serializable;
 
-public class Movie implements Serializable{
+public class Movie implements Serializable {
 
 	private String movieId;
 	private String movieName;

@@ -2,7 +2,7 @@ package Database;
 
 import java.io.Serializable;
 
-public class ReservedSeat implements Serializable{
+public class ReservedSeat implements Serializable {
 
 	private int screenMovieId;
 	private String seat;

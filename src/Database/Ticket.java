@@ -2,7 +2,7 @@ package Database;
 
 import java.io.Serializable;
 
-public class Ticket implements Serializable{
+public class Ticket implements Serializable {
 
 	private String ticketId;
 	private String movieName;
@@ -106,9 +106,10 @@ public class Ticket implements Serializable{
 
 	@Override
 	public String toString() {
-		return "[" + this.ticketId + "] " + this.movieName + "/" + this.theaterName + "/" + this.screenNum
-				+ "/" + this.screenDate + "/" + this.screenTime + "/" + this.seatNum + "/" + this.userId
-				+ "/" + this.isPaymentBool() + "/" + this.usedPoint;
+		String format = "[%s] %s / %s / %s / %s / %s / %s / %s / %B / %d";
+
+		return String.format(format, this.ticketId, this.movieName, this.theaterName, this.screenNum, this.screenDate,
+				this.screenTime, this.seatNum, this.userId, this.isPaymentBool(), this.usedPoint);
 	}
 
 }

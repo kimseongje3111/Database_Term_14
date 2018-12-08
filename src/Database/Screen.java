@@ -2,7 +2,7 @@ package Database;
 
 import java.io.Serializable;
 
-public class Screen implements Serializable{
+public class Screen implements Serializable {
 
 	private String screenId;
 	private String theaterId;

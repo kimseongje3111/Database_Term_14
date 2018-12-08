@@ -17,31 +17,27 @@ public class Customer {
 
 			switch (chooseWork) {
 			case 1: // 영화 차트 검색
-				System.out.println("현재 상영중인 영화입니다. (예매율순)");
+				System.out.println("> 현재 상영중인 영화입니다. (예매율순)");
 				new ShowScreeningMovie().run();
-				System.out.println();
 				break;
 
 			case 2: // 영화 예약
-				System.out.println("영화 예매를 진행합니다.");
+				System.out.println("> 영화 예매를 진행합니다.");
 				new ReserveTicket().run(user);
-				System.out.println();
 				break;
 
 			case 3: // 영화 예약 관리
-				System.out.println("예매 현황입니다.");
+				System.out.println("> 예매 현황입니다.");
 				new ShowReservation().run(user);
-				System.out.println();
 				break;
 
 			case 4: // 회원 관리
-				System.out.println("회원 관리입니다.");
+				System.out.println("> 회원 관리입니다.");
 				new UserData().run(user);
-				System.out.println();
 				break;
 
 			case 5: // 로그아웃
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("> 프로그램을 종료합니다.");
 				run = false;
 				break;
 

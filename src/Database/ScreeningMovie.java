@@ -2,7 +2,7 @@ package Database;
 
 import java.io.Serializable;
 
-public class ScreeningMovie implements Serializable{
+public class ScreeningMovie implements Serializable {
 
 	private int screenMovieId;
 	private String screenDate;
@@ -58,11 +58,12 @@ public class ScreeningMovie implements Serializable{
 	public void setScreenTime(String screenTime) {
 		this.screenTime = screenTime;
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.valueOf(this.screenMovieId) + "." + this.movieName + " : (상영날짜)" 
-				+ this.screenDate + " / (상영시간)" + this.screenTime + " / (상영관 아이디)" + this.screenId;
+		String format = "[%d] %s : %s(상영 날짜) / %s(상영관) / %s(상영 시간)";
+		return String.format(format, this.screenMovieId, this.movieName, this.screenDate, this.screenId,
+				this.screenTime);
 	}
 
 }
