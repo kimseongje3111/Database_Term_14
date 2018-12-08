@@ -110,7 +110,7 @@ public class ReserveTicket {
 		int availcount = 0;
 		int count = 0;
 		for (ReservedSeat rs : rs_list) {
-			if (count != 0 && count % 10 == 0) {
+			if (count != 0 && count % 5 == 0) {
 				System.out.println();
 			}
 			if (rs.isReserveBool()) {
@@ -178,7 +178,7 @@ public class ReserveTicket {
 		}
 		
 		if (isFinished) {
-			System.out.println("에매가 완료되었습니다.");
+			System.out.println("에매가 완료되었습니다. 예약 현황에서 확인할 수 있습니다.");
 		} else {
 			System.out.println("예매를 실패하였습니다.");
 		}
@@ -208,8 +208,8 @@ public class ReserveTicket {
 
 	private List<Ticket> internetPay(List<Ticket> list, User user) {
 		List<Ticket> result = new ArrayList<>();
-		System.out.println("<<<<<< 총 " + list.size() + "개의 표에 대해서 결제를 진행합니다. >>>>>>");
 		System.out.println();
+		System.out.println("<<<<<< 총 " + list.size() + "개의 표에 대해서 결제를 진행합니다. >>>>>>");
 
 		for (int i = 0; i < list.size(); i++) {
 			int user_point = dao.getUsedPoint(user); // DAO 티켓 발권 : 예매자의 가용 포인트 가져오기
@@ -243,7 +243,7 @@ public class ReserveTicket {
 			}
 			result.add(list.get(i));
 		}
-		System.out.println("결제가 완료되었습니다. 예약 현황에서 확인할 수 있습니다.");
+		System.out.println("결제가 완료되었습니다.");
 
 		return result;
 	}
