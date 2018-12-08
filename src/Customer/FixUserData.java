@@ -21,13 +21,13 @@ public class FixUserData {
 		String newBirth = this.inputString("새로운 생년원일 : ");
 		String newAddr = this.inputString("새로운 주소 : ");
 		String newPhone = this.inputString("새로운 전화번호 : ");
-		
+
 		c_user.setPwd(newPassword);
 		c_user.setName(newName);
 		c_user.setBirth(newBirth);
 		c_user.setAddr(newAddr);
 		c_user.setPhoneNum(newPhone);
-		
+
 		boolean r = true; // DAO 회원 정보 수정 : 정보 업데이트
 
 		if (r) {

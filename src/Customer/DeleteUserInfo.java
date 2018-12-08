@@ -15,7 +15,7 @@ public class DeleteUserInfo {
 
 		if (sure.equals("Y")) {
 
-			boolean r = true; // DAO 회원 탈퇴 : 정보 삭제
+			boolean r = dao.deleteUser(user); // DAO 회원 탈퇴 : 정보 삭제
 
 			if (r) {
 				System.out.println("회원 탈퇴가 완료되었습니다.");
@@ -28,10 +28,7 @@ public class DeleteUserInfo {
 		} else {
 			System.out.println("회원 탈퇴를 취소합니다.");
 		}
-		// 그냥 바로 삭제
-		// 대신 티켓 등에서의 정보 cascade
 
-		// < 탈퇴하면 프로그램 종료 >
 	}
 
 	private int inputInt(String string) {
