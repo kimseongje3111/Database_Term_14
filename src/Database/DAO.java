@@ -892,7 +892,7 @@ public class DAO {
 					
 					while(rs.next()) {
 						String uid = "";
-						uid = rs.getString(0);
+						uid = rs.getString(1);
 						list.add(uid);
 					}
 				}
