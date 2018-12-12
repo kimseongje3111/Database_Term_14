@@ -29,6 +29,7 @@ public class CancelReservation {
 		}
 
 		dao.deleteTicket(remove_ticket, screenMovieNum); // DAO 예매 취소 : 티켓 삭제
+		System.out.println("해당 티켓이 삭제되었습니다.");
 	}
 
 	private int inputInt(String string) {

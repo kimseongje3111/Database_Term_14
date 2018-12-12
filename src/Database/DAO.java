@@ -1012,15 +1012,18 @@ public class DAO {
 		if (this.connect()) {
 
 			try {
-				String sql = "SELECT movieName, count(*) \"Total Seat\", sum(reserveBool) \"Total ReservedSeat\"\r\n" + 
-						" FROM (select screenMovieId, movieName from screeningmovie) as m, reservedseat WHERE reservedseat.screenMovieId = m.screenMovieId group by movieName";
+				String sql = "SELECT movieName, count(*) \"Total Seat\", sum(reserveBool) \"Total ReservedSeat\", sum(reserveBool)/count(*)\r\n" + 
+						" FROM (select screenMovieId, movieName from screeningmovie) as m, reservedseat\r\n" + 
+						" WHERE reservedseat.screenMovieId = m.screenMovieId\r\n" + 
+						" group by movieName\r\n" + 
+						" order by 4 desc";
 				stmt = conn.createStatement();
 				
 				if (stmt != null) {
 					rs = stmt.executeQuery(sql);
 					chart = new ArrayList<String>();
 					while (rs.next()) {
-						String temp = rs.getString(1) + "," + rs.getString(2) + "," + rs.getString(3);
+						String temp = rs.getString(1) + "," + rs.getString(2) + "," + rs.getString(3) + "," + rs.getString(4);
 						chart.add(temp);
 					}
 				}
