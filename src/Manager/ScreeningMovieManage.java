@@ -79,7 +79,7 @@ public class ScreeningMovieManage {
 			screeningmovie.setScreenId(screenId);
 			screeningmovie.setScreenTime(screenTime);
 
-			List<ScreeningMovie> sm_list = null; // DAO 상영 영화 : 상영관의 상영시간
+			List<ScreeningMovie> sm_list = dao.getlist(screeningmovie); // DAO 상영 영화 : 상영관의 상영시간
 			boolean b2 = true;
 
 			for (ScreeningMovie sm : sm_list) {
