@@ -1020,7 +1020,7 @@ public class DAO {
 					rs = stmt.executeQuery(sql);
 					chart = new ArrayList<String>();
 					while (rs.next()) {
-						String temp = rs.getString(0) + "," + rs.getString(1) + "," + rs.getString(2);
+						String temp = rs.getString(1) + "," + rs.getString(2) + "," + rs.getString(3);
 						chart.add(temp);
 					}
 				}
@@ -1239,4 +1239,38 @@ public class DAO {
 		}
 		return result;
 	}
+	
+	// 상영 영화 객체를 받으면 해당 상영영화 상영관 아이디와 동일한 모든 상영영화 리스트를 리턴함
+	public List<ScreeningMovie> getlist(ScreeningMovie sMovie){
+		List<ScreeningMovie> list = null;
+		
+		if(this.connect()) {
+			try {
+				String sql = "SELECT * FROM screeningMovie WHERE screenId = '" + sMovie.getScreenId() + "';";
+				stmt = conn.createStatement();
+				
+				if(stmt != null) {
+					rs = stmt.executeQuery(sql);
+					list = new ArrayList<ScreeningMovie>();
+					
+					while (rs.next()) {
+						ScreeningMovie sm = new ScreeningMovie();
+						sm.setScreenMovieId(rs.getInt(1));
+						sm.setScreenDate(rs.getString(2));
+						sm.setMovieName(rs.getString(3));
+						sm.setScreenId(rs.getString(4));
+						sm.setScreenTime(rs.getString(5));
+						list.add(sm);
+					}
+				}
+			} catch (SQLException e){
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패하였습니다.");
+			System.exit(0);
+		}
+		return list;
+	}
+	
 }
