@@ -220,12 +220,22 @@ public class ReserveTicket {
 
 			int point_use = this.inputInt("> 사용할 포인트 : ");
 
-			if (user_point < 1000 && point_use != 0) {
-				System.out.println("> 포인트가  1000P 이하 입니다. 포인트 사용이 불가능합니다.");
+			if (user_point < 1000) {
+				System.out.println("> 사용자 포인트가  1000P 이하 입니다. 포인트 사용이 불가능합니다.");
 
 				dao.ticketing(user, false, 0); // DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
 				System.out.println("> 결제 진행중입니다. 포인트 100P 를 적립합니다.");
 
+				list.get(i).setPaymentBool(true);
+				list.get(i).setUsedPoint(0);
+
+			} else if (point_use != 0 && point_use < 1000) {
+				System.out.println("> 포인트는 1000P 이상부터 사용 가능합니다. 포인트 사용이 불가능합니다.");
+
+				dao.ticketing(user, false, 0); // DAO 티켓 발권 : 포인트 사용 x, 사용자의 가용 포인트 100점 증가, 티켓 구매 횟수 증가
+				System.out.println("> 결제 진행중입니다. 포인트 100P 를 적립합니다.");
+				System.out.println("> 결제가 완료되었습니다. 티켓을 발행합니다.");
+				
 				list.get(i).setPaymentBool(true);
 				list.get(i).setUsedPoint(0);
 
