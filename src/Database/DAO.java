@@ -877,26 +877,24 @@ public class DAO {
 	}
 
 	// 22. VIP 관리
-	public List<String> getVipList(String period) { ///////////////////////////////////////////////////////////////////
-		List<String> list = null;
-		String temp[] = period.split("~");
-		int start = Integer.parseInt(temp[0]); // ex) 20181208
-		int end = Integer.parseInt(temp[1]);
+	public List<String> getVipList(String period) { // 매개변수로 년도를 입력받으면 해당 년도의 VIP 탑 10 userId String 리스트 출력
+		List<String> list = new ArrayList<String>();
 
-		// String sql = "SELECT userId from ticket WHERE "
+		 String sql = "SELECT userId, count(*) FROM ticket WHERE screenDate LIKE '" + period + "%' GROUP BY userId ORDER BY 2 desc";
 
 		if (this.connect()) {
-			String sql = "SELECT userId FROM ticket WHERE ";
-
-			// SELECT userId FROM (SELECT * FROM ticket WHERE screenDate BETWEEN start AND
-			// end) as a GROUP BY userId ORDER BY 2 DESC LIMIT 10;
 
 			try {
 				stmt = conn.createStatement();
 
 				if (stmt != null) {
 					rs = stmt.executeQuery(sql);
-					rs.next();
+					
+					while(rs.next()) {
+						String uid = "";
+						uid = rs.getString(0);
+						list.add(uid);
+					}
 				}
 
 				this.close();
@@ -1008,11 +1006,32 @@ public class DAO {
 	}
 
 	// 26. 영화 차트 출력
-	public List<String> printMovieRating() { // 예매율 : 예약이 되있는 것/ 총 좌석
-												// 번호//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44
-		List<String> list = new ArrayList<String>();
+	public List<String> printMovieRating() {
+		List<String> chart = null;
 
-		return list;
+		if (this.connect()) {
+
+			try {
+				String sql = "SELECT movieName, count(*) \"Total Seat\", sum(reserveBool) \"Total ReservedSeat\"\r\n" + 
+						" FROM (select screenMovieId, movieName from screeningmovie) as m, reservedseat WHERE reservedseat.screenMovieId = m.screenMovieId group by movieName";
+				stmt = conn.createStatement();
+				
+				if (stmt != null) {
+					rs = stmt.executeQuery(sql);
+					chart = new ArrayList<String>();
+					while (rs.next()) {
+						String temp = rs.getString(0) + "," + rs.getString(1) + "," + rs.getString(2);
+						chart.add(temp);
+					}
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("데이터베이스 연결에 실패했습니다.");
+			System.exit(0);
+		}
+		return chart;
 	}
 
 	// 27. 영화 예약 - 예약 좌석 리스트 가져오기
@@ -1220,5 +1239,4 @@ public class DAO {
 		}
 		return result;
 	}
-
 }
