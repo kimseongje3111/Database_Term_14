@@ -16,7 +16,8 @@ public class ShowScreeningMovie {
 		int count = 1;
 		for (String s : sc_list) {
 			String[] temp = s.split(",");
-			System.out.println(String.format("[%d] %s / 예매율 : %.2f", count, temp[0], temp[3]));
+			float reserver_rate = temp[3] * 100.0;
+			System.out.println(String.format("[%d] %s / 예매율 : %.2f%", count, temp[0], temp[3]));
 			count++;
 		}
 		System.out.println();
