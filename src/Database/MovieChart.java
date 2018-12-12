@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class MovieChart implements Serializable {
 
 	private String movieName;
-	private int ticketingRate;
+	private float ticketingRate;
 
 	public MovieChart() {
 		super();
@@ -24,7 +24,7 @@ public class MovieChart implements Serializable {
 		this.movieName = movieName;
 	}
 
-	public int getTicketingRate() {
+	public float getTicketingRate() {
 		return ticketingRate;
 	}
 
