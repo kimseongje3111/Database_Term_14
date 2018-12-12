@@ -19,13 +19,12 @@ public class PublishTicket {
 		userId = this.inputString("> 발권할 고객의 아이디 (ex.root) : ");
 		user.setUserId(userId);
 
-		boolean b = true; // DAO 티켓 발행 : 예매자 확인
-
-		if (!b) {
+		List<Ticket> ticket_list = dao.getTicketList(user); // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)
+		
+		if (ticket_list == null) {
+			System.out.println("예약된 티켓이 존재하지 않습니다.");
 			this.run();
 		}
-
-		List<Ticket> ticket_list = dao.getTicketList(user); // DAO 티켓 발권 : 예매자의 티켓 (예매자 확인)
 
 		System.out.println("------------------------------------- 예매자 티켓 목록 -------------------------------------");
 		System.out.println("[티켓번호] 영화 / 영화관 / 상영관 번호 / 상영 날짜 / 상영 시간 / 좌석 번호 / 예매자 / 결제 유무 / 사용 포인트");
