@@ -79,13 +79,45 @@ public class ScreeningMovieManage {
 			screeningmovie.setScreenId(screenId);
 			screeningmovie.setScreenTime(screenTime);
 
-			boolean b2 = dao.insertScreeningMovie(screeningmovie); // DAO 상영 영화 : 삽입
+			List<ScreeningMovie> sm_list = null; // DAO 상영 영화 : 상영관의 상영시간
+			boolean b2 = true;
+
+			for (ScreeningMovie sm : sm_list) {
+				String time = sm.getScreenTime();
+				int start_time = Integer.parseInt(time.substring(0, 2));
+				int end_time = Integer.parseInt(time.substring(2, 4));
+
+				int cur_start = Integer.parseInt(screenTime.substring(0, 2));
+				int cur_end = Integer.parseInt(screenTime.substring(2, 4));
+
+				if (start_time != cur_start) {
+					if (start_time < cur_start) {
+						if (end_time > cur_start) {
+							b2 = false;
+						}
+					} else {
+						if (start_time < cur_end) {
+							b2 = false;
+						}
+					}
+				} else {
+					b2 = false;
+				}
+			}
 
 			if (b2) {
-				System.out.println("> 상영 영화가 등록되었습니다.");
+				boolean b3 = dao.insertScreeningMovie(screeningmovie); // DAO 상영 영화 : 삽입
+
+				if (b3) {
+					System.out.println("> 상영 영화가 등록되었습니다.");
+				} else {
+					System.out.println("> 상영 영화 등록을 실패하였습니다.");
+				}
+				
 			} else {
-				System.out.println("> 상영 영화 등록을 실패하였습니다.");
+				System.out.println("> 해당 영화의 시간이 이미 존재 합니다.");
 			}
+
 		} else {
 			System.out.println("> 이미 존재하는 상영 영화 번호입니다.");
 		}
