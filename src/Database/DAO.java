@@ -880,7 +880,7 @@ public class DAO {
 	public List<String> getVipList(String period) { // 매개변수로 년도를 입력받으면 해당 년도의 VIP 탑 10 userId String 리스트 출력
 		List<String> list = new ArrayList<String>();
 
-		 String sql = "SELECT userId, count(*) FROM ticket WHERE screenDate LIKE '" + period + "%' GROUP BY userId ORDER BY 2 desc";
+		 String sql = "SELECT userId, count(*) FROM ticket WHERE screenDate LIKE '" + period + "%' GROUP BY userId ORDER BY 2 desc limit 10";
 
 		if (this.connect()) {
 
