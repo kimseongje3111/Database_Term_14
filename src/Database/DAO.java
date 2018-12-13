@@ -949,7 +949,7 @@ public class DAO {
 
 		if (this.connect()) {
 			try {
-				String sql = "UPDATE user SET pwd = ? name = ? birth = ? addr = ? phoneNum = ? WHERE userId = '"
+				String sql = "UPDATE user SET pwd = ?, name = ?, birth = ?, addr = ?, phoneNum = ? WHERE userId = '"
 						+ userid + "';";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 
